@@ -1,0 +1,56 @@
+name: Auto fix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION: 20
+      PNPM_VERSION: 9
+
+    defaults:
+      run:
+        working-directory: ./web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deps cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./web/node_modules
+            ~/.local/share/pnpm/store
+          key: pnpm-v${{ env.PNPM_VERSION }}-${{ hashFiles('web/pnpm-lock.yaml') }}
+          restore-keys: pnpm-v${{ env.PNPM_VERSION }}-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          #cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Install Deps
+        run: pnpm install
+      
+      - name: build
+        run: pnpm run build  
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@1
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          projectName: polaris-consts
+          directory: ./dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
