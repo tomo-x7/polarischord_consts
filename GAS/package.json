@@ -1,0 +1,18 @@
+{
+	"name": "gas",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"push": "clasp push",
+		"deploy": "clasp deploy -i AKfycbyw6pOOM5bDH7t10HF1DSCiHI7OpCCTCbd6v16NIhcyXP0dgrp5rkzf2ruv6GMUdrAB"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@google/clasp": "^2.5.0",
+		"@types/google-apps-script": "^1.0.91",
+		"typescript": "^5.7.3"
+	}
+}
