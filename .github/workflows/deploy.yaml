@@ -56,3 +56,4 @@ jobs:
           projectName: polaris-consts
           directory: ./dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: web
