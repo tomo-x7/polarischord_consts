@@ -12,6 +12,7 @@ jobs:
       PNPM_VERSION: 9
       GAS_URL: ${{secrets.GAS_URL}}
       PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+      BUILD_CODE: 0
 
     defaults:
       run:
@@ -58,7 +59,7 @@ jobs:
         run: exit 0
       
       - name: build error
-        if: env.BUILD_CODE==1
+        if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
         run: exit 1
 
       - name: Publish to Cloudflare Pages
