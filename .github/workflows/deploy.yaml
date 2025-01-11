@@ -50,10 +50,6 @@ jobs:
         run: pnpm run build || echo "BUILD_CODE=$?" >> $GITHUB_ENV
         id: build     
 
-      - name: test exit code
-        run: echo $BUILD_CODE
-        env:
-          CONTEXT: ${{ toJSON(steps.build) }}
       - name: skip deploy
         if: env.BUILD_CODE==11
         run: exit 0
