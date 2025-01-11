@@ -44,4 +44,4 @@ await fs.mkdir(path.join(import.meta.dirname, "public", "data"),{recursive:true}
 await fs.writeFile(path.join(datadir, "metadata.json"), JSON.stringify(metadata, undefined, 0));
 await fs.writeFile(path.join(datadir, "data.json"), JSON.stringify(res.payload, undefined, 0));
 
-process.exitCode=11
+process.exitCode=1
