@@ -34,6 +34,6 @@ const datadir = path.join(import.meta.dirname, "public", "data");
 try {
 	await fs.rm(datadir, { force: true, recursive: true });
 } catch (e) {}
-await fs.mkdir(path.join(import.meta.dirname, "public", "data"));
+await fs.mkdir(path.join(import.meta.dirname, "public", "data"),{recursive:true});
 await fs.writeFile(path.join(datadir, "metadata.json"), JSON.stringify(metadata, undefined, 0));
 await fs.writeFile(path.join(datadir, "data.json"), JSON.stringify(res.payload, undefined, 0));
