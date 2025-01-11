@@ -28,8 +28,14 @@ if (!res.ok) {
 	console.error(res.error);
 	throw new Error();
 }
+if(!res.payload){
+	console.error("payload not found")
+	throw new Error()
+}
+const hash=crypto.hash("SHA256",JSON.stringify(res.payload),"base64")
+const oldhash=""
 
-const metadata = { lastupdate: new Date() };
+const metadata = { lastupdate: new Date(),hash };
 const datadir = path.join(import.meta.dirname, "public", "data");
 try {
 	await fs.rm(datadir, { force: true, recursive: true });
@@ -37,3 +43,5 @@ try {
 await fs.mkdir(path.join(import.meta.dirname, "public", "data"),{recursive:true});
 await fs.writeFile(path.join(datadir, "metadata.json"), JSON.stringify(metadata, undefined, 0));
 await fs.writeFile(path.join(datadir, "data.json"), JSON.stringify(res.payload, undefined, 0));
+
+process.exitCode=11
