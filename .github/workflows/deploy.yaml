@@ -46,17 +46,24 @@ jobs:
         run: pnpm install
       
       - name: build
-        run: pnpm run build  
-        id: build
-        continue-on-error: true
+        run: pnpm run build || echo "BUILD_CODE=$?" >> $GITHUB_ENV
+        id: build     
 
       - name: test exit code
-        run: echo $? && echo $CONTEXT
+        run: echo $BUILD_CODE
         env:
           CONTEXT: ${{ toJSON(steps.build) }}
+      - name: skip deploy
+        if: env.BUILD_CODE==11
+        run: 
+      
+      - name: build error
+        if: env.BUILD_CODE==1
+        run: exit 1
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
+        if: ${{env.BUILD_CODE==0}}
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
