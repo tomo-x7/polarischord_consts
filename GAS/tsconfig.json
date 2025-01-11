@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
-      "target": "ES2019",
+      "target": "ES2019","module": "NodeNext",
+      "moduleResolution": "nodenext",
       "strict": true
     },
     "include": ["src/**/*.ts"]

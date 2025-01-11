@@ -1,11 +1,12 @@
 {
-	"name": "gas",
+	"name": "polarischord_consts_gas",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"push": "clasp push",
-		"deploy": "clasp deploy -i AKfycbyw6pOOM5bDH7t10HF1DSCiHI7OpCCTCbd6v16NIhcyXP0dgrp5rkzf2ruv6GMUdrAB"
+		"build": "node ./esbuild.mjs",
+		"push": "pnpm run build&&clasp push",
+		"deploy": "pnpm run push&&clasp deploy -i AKfycbyw6pOOM5bDH7t10HF1DSCiHI7OpCCTCbd6v16NIhcyXP0dgrp5rkzf2ruv6GMUdrAB"
 	},
 	"keywords": [],
 	"author": "",
@@ -13,6 +14,13 @@
 	"devDependencies": {
 		"@google/clasp": "^2.5.0",
 		"@types/google-apps-script": "^1.0.91",
+		"esbuild": "^0.24.2",
+		"esbuild-gas-plugin": "^0.8.0",
+		"esbuild-plugin-copy": "^2.1.1",
+		"node-forge": "^1.3.1",
 		"typescript": "^5.7.3"
+	},
+	"dependencies": {
+		"@types/node-forge": "^1.3.11"
 	}
 }
