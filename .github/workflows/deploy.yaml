@@ -2,6 +2,12 @@ name: deploy
 
 on:
   workflow_dispatch:
+  push: 
+    branches: 
+      - main
+  schedule: 
+    # 毎日0:15
+    - cron: "15 15 * * *"
 
 jobs:
   main:
@@ -48,7 +54,14 @@ jobs:
       
       - name: build
         run: pnpm run build || echo "BUILD_CODE=$?" >> $GITHUB_ENV
-        id: build     
+        if: github.event_name == 'schedule'
+      
+        #スケジュール実行以外の時は強制ビルド 
+      - name: build force
+        run: pnpm run build || echo "BUILD_CODE=$?" >> $GITHUB_ENV
+        if: github.event_name != 'schedule'
+        env: 
+          FORCE: 1
 
       - name: skip deploy
         if: env.BUILD_CODE==11

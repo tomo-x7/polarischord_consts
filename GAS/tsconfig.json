@@ -1,8 +1,9 @@
 {
-    "compilerOptions": {
-      "target": "ES2019","module": "NodeNext",
-      "moduleResolution": "nodenext",
-      "strict": true
-    },
-    "include": ["src/**/*.ts"]
-  }
+	"compilerOptions": {
+		"target": "ES2019",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		"strict": true
+	},
+	"include": ["src/**/*.ts"]
+}

@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import { Res } from "../GAS/src/util";
+import type { Res } from "../GAS/src/util";
 import path from "node:path";
 import { config } from "dotenv";
 import crypto from "node:crypto";
@@ -7,6 +7,8 @@ config();
 const { GAS_URL: gasurlstr, PRIVATE_KEY } = process.env;
 if (!gasurlstr || !PRIVATE_KEY) throw new Error("env not found");
 const GAS_URL = new URL(gasurlstr);
+const isForce = process.argv[2] === "force" || process.env.FORCE === "1";
+if (isForce) console.log("force mode");
 
 const strToU8arr = (str: string) => new Uint8Array(str.split("").map((s) => s.charCodeAt(0)));
 const alg = { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" };
@@ -33,11 +35,12 @@ if (!res.payload) {
 	throw new Error();
 }
 const hash = crypto.hash("SHA256", JSON.stringify(res.payload), "base64");
-const {hash:oldhash} = await fetch("https://polaris-consts.pages.dev/data/metadata.json").then(
+const { hash: oldhash } = await fetch("https://polaris-consts.pages.dev/data/metadata.json").then(
 	(r) => r.json() as Promise<{ hash: string }>,
 );
-if(hash===oldhash){
-	process.exit(11)
+//hashが前回値と一致かつforceではない場合
+if (hash === oldhash && isForce === false) {
+	process.exit(11);
 }
 const metadata = { lastupdate: new Date(), hash };
 const datadir = path.join(import.meta.dirname, "public", "data");

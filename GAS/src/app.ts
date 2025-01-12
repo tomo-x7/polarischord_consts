@@ -1,5 +1,12 @@
 import forge from "node-forge";
-import { FailedResponse, ScriptError, SignInvalidError, SignMissingError, Res, InternalServerError } from "./util";
+import {
+	type FailedResponse,
+	ScriptError,
+	SignInvalidError,
+	SignMissingError,
+	type Res,
+	InternalServerError,
+} from "./util";
 
 const pubkeypem =
 	"-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxRLwLfJq/3HIAKRQly5JW9PulnYv2MizeCUzxV7ZADcHsR6OVi/BWvEaxlXVtZN8NhE4rtbLjc7IgRuSD8T+gjtBcDkKvJ6U3XXT2uY0fJZaQ4KQCp4vKoj746CvN4uBVCt+0ciRGpXUX5jRshWJwu0TTPwREQeSYxHSwG1NJnwIDAQAB-----END PUBLIC KEY-----";
@@ -59,7 +66,7 @@ function main(e: GoogleAppsScript.Events.DoGet): Res {
 			easy: easy?.diff ?? 0,
 			normal: normal?.diff ?? 0,
 			hard: hard?.diff ?? 0,
-			inf: inf?.diff ?? 0,
+			inf: inf?.diff ?? -1,
 		};
 		const consts: diffs = {
 			easy: easy?.consts ?? 0,
@@ -69,7 +76,7 @@ function main(e: GoogleAppsScript.Events.DoGet): Res {
 		};
 		map.set(music, { name: music, composer, diff, consts });
 	}
-	const maparr=Array.from(map.values())
+	const maparr = Array.from(map.values());
 	return { ok: true, payload: maparr };
 }
 
