@@ -5,6 +5,7 @@ import { Music } from "./Music";
 export function Data({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const { data: musicdata, meta } = use(data);
 	musicdata.sort((a, b) => (a.name > b.name ? 1 : -1));
+    console.log(musicdata)
 	return (
 		<>
 			{musicdata.map((m) => (
