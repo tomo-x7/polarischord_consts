@@ -3,7 +3,9 @@
 		"target": "ES2019",
 		"module": "NodeNext",
 		"moduleResolution": "nodenext",
-		"strict": true
+		"skipLibCheck": true,
+		"strict": true,
+		"noEmit": true
 	},
 	"include": ["src/**/*.ts"]
 }

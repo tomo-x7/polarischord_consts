@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "node ./esbuild.mjs",
+		"build": "tsc && node ./esbuild.mjs",
 		"push": "pnpm run build&&clasp push",
 		"deploy": "pnpm run push&&clasp deploy -i AKfycbyw6pOOM5bDH7t10HF1DSCiHI7OpCCTCbd6v16NIhcyXP0dgrp5rkzf2ruv6GMUdrAB"
 	},
