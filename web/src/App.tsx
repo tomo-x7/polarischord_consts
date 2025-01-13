@@ -1,22 +1,22 @@
-import { ReactNode, Suspense } from "react";
+import { type ReactNode, Suspense, useEffect, useState } from "react";
 import type { metadata, musics } from "./types";
 import { Data } from "./Data";
+import type { sortData } from "./sortAlgo";
+import { Sort } from "./Sort";
+
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
+	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
 	return (
 		<>
 			<h1 className="text-3xl">ポラリスコード定数一覧</h1>
-			<Suspense fallback={<span>loading...</span>}>
-				<Data data={data} />
-			</Suspense>
+			<main className="sp:px-3">
+				<Sort setSort={setsort} now={sort} />
+				<Suspense fallback={<span>loading...</span>}>
+					<Data data={data} sort={sort} />
+				</Suspense>
+			</main>
 			<Footer />
-			<button
-				type="button"
-				style={{ border: "solid black 3px", boxShadow: "1px 1px 4px 0px black", transition: "box-shadow .1s" }}
-				className="fixed bottom-4 right-4 bg-white rounded-full h-16 w-16 sp:shadow-none hover:!shadow-none"
-				onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-			>
-				↑
-			</button>
+			<GoTop />
 		</>
 	);
 }
@@ -26,6 +26,29 @@ function Link({ href, children }: { href: string; children: ReactNode }) {
 		<a className="text-[#00E] underline" target="_blank" rel="noopener noreferrer" href={href}>
 			{children}
 		</a>
+	);
+}
+
+function GoTop() {
+	const [scrollY, setScrollY] = useState(0);
+	useEffect(() => {
+		const listener = () => setScrollY(window.scrollY);
+		window.addEventListener("scroll", listener, { passive: true });
+		return () => window.removeEventListener("scroll", listener);
+	}, []);
+	return (
+		<button
+			type="button"
+			style={{
+				boxShadow: "1px 1px 4px 0px black",
+				transition: "box-shadow .1s, opacity .3s",
+				opacity: scrollY < 30 ? 0 : 1,
+			}}
+			className="fixed bottom-4 right-4 text-4xl bg-blue-400 rounded-full h-14 w-14 sp:shadow-none hover:!shadow-none"
+			onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+		>
+			↑
+		</button>
 	);
 }
 

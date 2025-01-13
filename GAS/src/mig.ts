@@ -72,11 +72,22 @@ function main() {
 	if (!writeSheat) throw new Error();
 	for (let i = 0; i < 1000; i++) {
 		const t = maparr[i];
-		if(!t){break;}
+		if (!t) {
+			break;
+		}
 		writeSheat
 			.getRange(i + 2, 1, 1, 8)
 			.setValues([
-				[t.name, t.composer, t.diff.inf, t.consts.inf, t.diff.hard, t.consts.hard, t.diff.normal, t.diff.easy].map(v=>v||""),
+				[
+					t.name,
+					t.composer,
+					t.diff.inf,
+					t.consts.inf,
+					t.diff.hard,
+					t.consts.hard,
+					t.diff.normal,
+					t.diff.easy,
+				].map((v) => v || ""),
 			]);
 	}
 }

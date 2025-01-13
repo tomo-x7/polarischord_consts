@@ -2,10 +2,10 @@ import type { music } from "./types";
 
 const diffs = ["easy", "normal", "hard", "inf"] as const;
 const colors = ["#b7fcff", "#b7ffdf", "#fff5ca", "#ffd6f7"] as const;
-export function Music({ music,bg }: { music: music,bg:string }) {
+export function Music({ music, bg }: { music: music; bg: string }) {
 	return (
 		<>
-			<div className="p-1 flex justify-between gap-3 sp:flex-col sp:gap-0" style={{backgroundColor:bg}}>
+			<div className="p-1 flex justify-between gap-3 sp:flex-col sp:gap-0" style={{ backgroundColor: bg }}>
 				<div>
 					<div className="text-xl sp:text-base">{music.name}</div>
 					<div className="text-sm sp:text-xs">{music.composer || "???"}</div>

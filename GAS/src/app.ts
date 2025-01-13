@@ -29,22 +29,24 @@ function main(e: GoogleAppsScript.Events.DoGet): Res {
 		throw new InternalServerError("sheat not found");
 	}
 	const rawdata = sheat.getRange("A2:H1000").getValues() as out;
-	const data: data[] = rawdata.map((raw) => {
-		const [name, composer, diffInf, constInf, diffHard, constHard, diffNormal, diffEasy] = raw;
-		if(name==="")return undefined
-		return {
-			name,
-			composer,
-			diff: {
-				inf: parseInf(diffInf),
-				hard: numOrZero(diffHard),
-				normal: numOrZero(diffNormal),
-				easy: numOrZero(diffEasy),
-			},
-			consts: { inf: parseInf(constInf), hard: numOrZero(constHard) },
-		};
-	}).filter(v=>v!=null)
-	
+	const data: data[] = rawdata
+		.map((raw) => {
+			const [name, composer, diffInf, constInf, diffHard, constHard, diffNormal, diffEasy] = raw;
+			if (name === "") return undefined;
+			return {
+				name,
+				composer,
+				diff: {
+					inf: parseInf(diffInf),
+					hard: numOrZero(diffHard),
+					normal: numOrZero(diffNormal),
+					easy: numOrZero(diffEasy),
+				},
+				consts: { inf: parseInf(constInf), hard: numOrZero(constHard) },
+			};
+		})
+		.filter((v) => v != null);
+
 	return { ok: true, payload: data };
 }
 
