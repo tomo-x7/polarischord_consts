@@ -5,13 +5,15 @@ import { Music } from "./Music";
 export function Data({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const { data: musicdata, meta } = use(data);
 	musicdata.sort((a, b) => (a.name > b.name ? 1 : -1));
-    console.log(musicdata)
+	console.log(musicdata);
 	return (
 		<>
-			{musicdata.map((m) => (
-				<Music music={m} key={m.name} />
-			))}
-			<div>
+			<div className="w-min sp:w-auto sp:px-3">
+				{musicdata.map((m,i) => (
+					<Music music={m} bg={i%2===0?"#fff":"#eee"} key={m.name} />
+				))}
+			</div>
+			<div className="mt-2">
 				楽曲データ最終更新確認:
 				{new Date(meta.lastupdate).toLocaleString()}
 			</div>
