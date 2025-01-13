@@ -8,20 +8,7 @@ export default function App({ data }: { data: Promise<{ data: musics; meta: meta
 			<Suspense fallback={<span>loading...</span>}>
 				<Data data={data} />
 			</Suspense>
-			<footer className="bg-gray-500 text-black mt-4 pt-2">
-				<div>
-					developed by{" "}
-					<Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.bsky.social</Link>
-				</div>
-				<div>
-					ソースコードは
-					<Link href="https://github.com/tomo-x7/polarischord_consts">Github</Link>で公開しています
-				</div>
-				<div>
-					データ収集: Discordサーバー
-					<Link href="https://discord.gg/p7vtPNUAbC">ポラリスコードの会</Link>
-				</div>
-			</footer>
+			<Footer />
 			<button
 				type="button"
 				style={{ border: "solid black 3px", boxShadow: "1px 1px 4px 0px black", transition: "box-shadow .1s" }}
@@ -39,5 +26,24 @@ function Link({ href, children }: { href: string; children: ReactNode }) {
 		<a className="text-[#00E] underline" target="_blank" rel="noopener noreferrer" href={href}>
 			{children}
 		</a>
+	);
+}
+
+function Footer() {
+	return (
+		<footer className="sticky top-full bg-gray-500 text-black mt-4 pt-2">
+			<div>
+				developed by{" "}
+				<Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.bsky.social</Link>
+			</div>
+			<div>
+				ソースコードは
+				<Link href="https://github.com/tomo-x7/polarischord_consts">Github</Link>で公開しています
+			</div>
+			<div>
+				データ収集: Discordサーバー
+				<Link href="https://discord.gg/p7vtPNUAbC">ポラリスコードの会</Link>
+			</div>
+		</footer>
 	);
 }
