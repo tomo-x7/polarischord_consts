@@ -23,7 +23,7 @@ export default function App({ data }: { data: Promise<{ data: musics; meta: meta
 
 function Link({ href, children }: { href: string; children: ReactNode }) {
 	return (
-		<a className="text-[#00E] underline" target="_blank" rel="noopener noreferrer" href={href}>
+		<a className="text-[#00B] underline" target="_blank" rel="noopener noreferrer" href={href}>
 			{children}
 		</a>
 	);
@@ -54,7 +54,7 @@ function GoTop() {
 
 function Footer() {
 	return (
-		<footer className="sticky top-full bg-gray-500 text-black mt-4 pt-2">
+		<footer className="sticky top-full bg-gray-400 text-black mt-4 pt-2">
 			<div>
 				developed by{" "}
 				<Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.bsky.social</Link>
