@@ -9,6 +9,9 @@ on:
     # 毎日0:15
     - cron: "15 15 * * *"
 
+env:
+  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -27,6 +30,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: start notify
+        uses: sarisia/actions-status-discord@v1
+        with:
+          color: 0x0000FF
+          title: start deploy
+          nodetail: true
+
       - name: Deps cache
         id: cache
         uses: actions/cache@v4
@@ -41,7 +51,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          #cache: 'pnpm'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -63,9 +72,22 @@ jobs:
         env: 
           FORCE: 1
 
-      - name: skip deploy
+      - name: skip deploy notify
         if: env.BUILD_CODE==11
-        run: exit 0
+        uses: sarisia/actions-status-discord@v1
+        with:
+          color: 0xFFFF00
+          title: deploy skipped
+          nodetail: true
+      
+      - name: build error notify
+        if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
+        uses: sarisia/actions-status-discord@v1
+        with:
+          content: "error! <@1111261400157929482>"
+          color: 0xFF0000
+          title: build error
+          noprefix: true
       
       - name: build error
         if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
@@ -80,3 +102,20 @@ jobs:
           command: pages deploy dist --project-name=polaris-consts
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: web
+
+      - name: success notify
+        if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
+        uses: sarisia/actions-status-discord@v1
+        with:
+          color: 0x00FF00
+          title: deploy success
+          nodetail: true
+
+      - name: actions error notify
+        if: failure()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          content: "error! <@1111261400157929482>"
+          color: 0x00FF00
+          title: actions error
+          noprefix: true
