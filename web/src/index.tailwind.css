@@ -19,3 +19,18 @@ select {
 	background-size: 16px 16px;
 	cursor: pointer;
 }
+input[type="text"] {
+	outline: none;
+	appearance: none;
+	font-family: "ヒラギノ角ゴシック" sans-serif;
+	font-size: 16px;
+	border: 1px solid #333;
+	border-radius: 4px;
+	line-height: 1.25rem;
+	color: #333;
+	box-shadow: none;
+	padding: 0 24px 0 8px;
+	background: #fff;
+	background-size: 16px 16px;
+	cursor: text;
+}

@@ -1,19 +1,26 @@
 import { use } from "react";
-import type { musics, metadata, sortData } from "./types";
+import type { musics, metadata, sortData, filterAlgo, searchAlgo } from "./types";
 import { Music } from "./Music";
 import { sortAlgos } from "./sortAlgo";
 
 export function Data({
 	data,
 	sort: { algo: algoName, reverse },
-}: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData }) {
+	filter,
+	search,
+}: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData; filter?: filterAlgo; search?: searchAlgo }) {
 	const { data: origindata, meta } = use(data);
-	const algo = sortAlgos[algoName];
-	const musicdata = origindata.slice();
-	musicdata.sort(algo);
-	if (reverse) musicdata.reverse();
 
-	console.log(musicdata);
+	const { fn, canSort=true } = search ?? {};
+	//検索を実行
+	const musicdata = (fn ? fn(origindata) : origindata).filter(filter ?? defaultFilter);
+	//ソート
+	if (canSort) {
+		const algo = sortAlgos[algoName];
+		musicdata.sort(algo);
+		if (reverse) musicdata.reverse();
+	}
+	
 	return (
 		<>
 			<div className="w-min sp:w-auto">
@@ -28,3 +35,5 @@ export function Data({
 		</>
 	);
 }
+
+const defaultFilter=()=>true
