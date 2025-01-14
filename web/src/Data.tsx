@@ -9,7 +9,9 @@ export function Data({
 }: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData }) {
 	const { data: origindata, meta } = use(data);
 	const algo = sortAlgos[algoName];
-	const musicdata = reverse ? origindata.toSorted(algo).toReversed() : origindata.toSorted(algo);
+	const musicdata=origindata.slice();
+	musicdata.sort(algo)
+	if(reverse)musicdata.reverse()
 
 	console.log(musicdata);
 	return (

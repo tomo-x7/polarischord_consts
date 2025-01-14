@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-		"target": "ES2020",
+		"target": "ES2015",
 		"useDefineForClassFields": true,
-		"lib": ["ES2020", "DOM", "DOM.Iterable", "ES2023.Array"],
+		// "lib": ["ES2020", "DOM", "DOM.Iterable", "ES2023.Array"],
 		"module": "ESNext",
 		"skipLibCheck": true,
 
