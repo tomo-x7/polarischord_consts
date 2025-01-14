@@ -4,7 +4,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-	build:{target:"ES2015"},
+	build: { target: "ES2015" },
 	plugins: [
 		react(),
 		mode === "analyze" &&

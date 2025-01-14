@@ -1,7 +1,7 @@
 import { use } from "react";
-import type { musics, metadata } from "./types";
+import type { musics, metadata, sortData } from "./types";
 import { Music } from "./Music";
-import { sortAlgos, type sortData } from "./sortAlgo";
+import { sortAlgos } from "./sortAlgo";
 
 export function Data({
 	data,
@@ -9,9 +9,9 @@ export function Data({
 }: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData }) {
 	const { data: origindata, meta } = use(data);
 	const algo = sortAlgos[algoName];
-	const musicdata=origindata.slice();
-	musicdata.sort(algo)
-	if(reverse)musicdata.reverse()
+	const musicdata = origindata.slice();
+	musicdata.sort(algo);
+	if (reverse) musicdata.reverse();
 
 	console.log(musicdata);
 	return (

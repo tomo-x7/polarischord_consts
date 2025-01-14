@@ -1,7 +1,7 @@
 import { type ReactNode, Suspense, useEffect, useState } from "react";
-import type { metadata, musics } from "./types";
+import type { metadata, musics, sortData } from "./types";
 import { Data } from "./Data";
-import type { sortData } from "./sortAlgo";
+import type {} from "./sortAlgo";
 import { Sort } from "./Sort";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { sortAlgos, type sortData } from "./sortAlgo";
+import { sortAlgos } from "./sortAlgo";
+import type { sortData } from "./types";
 
 const algoNames: Record<keyof typeof sortAlgos, string> = {
 	name: "曲名",
