@@ -104,7 +104,7 @@ jobs:
           workingDirectory: web
 
       - name: success notify
-        if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
+        if: ${{env.BUILD_CODE==0}}
         uses: sarisia/actions-status-discord@v1
         with:
           color: 0x00FF00
