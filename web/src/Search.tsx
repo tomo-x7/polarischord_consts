@@ -1,6 +1,9 @@
 import { useState, ChangeEvent } from "react";
 import { filterAlgo, searchAlgo } from "./types";
 import { editONP } from "./distance";
+import moji from "Moji";
+
+const musicMap = new Map<string, string>();
 
 export function Search({
 	algo,
@@ -34,17 +37,39 @@ export function Search({
 
 const createSearchFn = (word: string): searchAlgo["fn"] | undefined => {
 	if (word === "") return undefined;
-	const regexp = new RegExp(word);
-	return (m) => m.filter((v) => regexp.test(v.name) || regexp.test(v.composer));
+	const regexp = new RegExp(parse(word));
+	return (m) => m.filter((v) => regexp.test(parse(v.name)) || regexp.test(parse(v.composer)));
 };
 const createFuzzySearchFn = (word: string): searchAlgo["fn"] | undefined => {
 	if (word === "") return undefined;
 	return (m) => {
-		// const searched = m
-		// 	.map((v) => ({ m: v, d: Math.max(editONP(word, v.name), editONP(word, v.composer)) }))
-		// 	.filter((v) => v.d > 0.6);
-		// searched.sort((a, b) => a.d - b.d);
-		// return searched.map((v) => v.m);
-        return m
+		const searched = m
+			.map((v) => ({ m: v, d: Math.max(editONP(word, v.name), editONP(word, v.composer)) }))
+			.filter((v) => v.d > 0.6);
+		searched.sort((a, b) => b.d - a.d);
+		console.log(searched);
+		return searched.map((v) => v.m);
+		// return m
 	};
 };
+const dict: [string, string][] = [
+	["Ö<3rf10₩", "overflow"],
+	["・", ""],
+];
+function parse(str: string) {
+    if(!str)return ""
+	if (musicMap.has(str)) return musicMap.get(str) ?? "";
+	try{let parsed = moji(str)
+		.convert("ZE", "HE")
+		.convert("HK", "ZK")
+		.convert("KK", "HG")
+		.reject("HS")
+		.reject("ZS")
+		.toString()
+		.toLowerCase();
+	for (const [bef, aft] of dict) {
+		parsed = parsed.replace(new RegExp(bef, "g"), aft);
+	}
+	musicMap.set(str, parsed);
+	return parsed;}catch(e){console.error(e);return ""}
+}

@@ -11,7 +11,7 @@ export function Data({
 }: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData; filter?: filterAlgo; search?: searchAlgo }) {
 	const { data: origindata, meta } = use(data);
 
-	const { fn, canSort=true } = search ?? {};
+	const { fn, canSort = true } = search ?? {};
 	//検索を実行
 	const musicdata = (fn ? fn(origindata) : origindata).filter(filter ?? defaultFilter);
 	//ソート
@@ -20,7 +20,7 @@ export function Data({
 		musicdata.sort(algo);
 		if (reverse) musicdata.reverse();
 	}
-	
+
 	return (
 		<>
 			<div className="w-min sp:w-auto">
@@ -36,4 +36,4 @@ export function Data({
 	);
 }
 
-const defaultFilter=()=>true
+const defaultFilter = () => true;

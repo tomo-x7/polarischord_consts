@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      moji:
+        specifier: ^0.5.1
+        version: 0.5.1
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -15,6 +18,9 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
     devDependencies:
+      '@types/moji':
+        specifier: ^0.5.3
+        version: 0.5.3
       '@types/node':
         specifier: ^22.10.5
         version: 22.10.5
@@ -1128,6 +1134,9 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/moji@0.5.3':
+    resolution: {integrity: sha512-x0qWIflmLQkob4rmSEjeHoEFT33vMHfM859X5Ej5QYRwUA1yv+3fJACidBMeUyFZRt9TjX2HXdi3T6FHf8eUAg==}
+
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
@@ -1490,6 +1499,9 @@ packages:
   mlly@1.7.3:
     resolution: {integrity: sha512-xUsx5n/mN0uQf4V548PKQ+YShA4/IW0KI1dZhrNrPCLG+xizETbHTkOa1f8/xut9JRPp8kQuMnz0oqwkTiLo/A==}
 
+  moji@0.5.1:
+    resolution: {integrity: sha512-xYylXOjBS9mE/d690InK3Y74NpE0El0TmAKDmKJveWk9jds/0Tl7MQP4yhavS0U64diEq+5ey2905nhCpIHE+Q==}
+
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -1518,6 +1530,10 @@ packages:
 
   normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
+    engines: {node: '>=0.10.0'}
+
+  object-assign@3.0.0:
+    resolution: {integrity: sha512-jHP15vXVGeVh1HuaA2wY6lxk+whK/x4KBG88VXeRma7CCun7iGD5qPc4eYykQ9sdQvg8jkwFKsSxHln2ybW3xQ==}
     engines: {node: '>=0.10.0'}
 
   object-assign@4.1.1:
@@ -3172,6 +3188,8 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/moji@0.5.3': {}
+
   '@types/node-forge@1.3.11':
     dependencies:
       '@types/node': 22.10.5
@@ -3579,6 +3597,10 @@ snapshots:
       pkg-types: 1.3.0
       ufo: 1.5.4
 
+  moji@0.5.1:
+    dependencies:
+      object-assign: 3.0.0
+
   ms@2.1.3: {}
 
   mustache@4.2.0: {}
@@ -3598,6 +3620,8 @@ snapshots:
   normalize-path@3.0.0: {}
 
   normalize-range@0.1.2: {}
+
+  object-assign@3.0.0: {}
 
   object-assign@4.1.1: {}
 

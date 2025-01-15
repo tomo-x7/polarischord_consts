@@ -8,7 +8,7 @@ function snake(k: number, yp: number, str1: string, str2: string) {
 	return y;
 }
 
-function editDistanceONP(str1: string, str2: string) {
+function editDistanceONP(str1: string, str2: string,threshold?:number) {
 	let s1: string;
 	let s2: string;
 	if (str1.length < str2.length) {
@@ -54,12 +54,78 @@ function editDistanceONP(str1: string, str2: string) {
 		v0 = fp[dc] + 1;
 		v1 = fp[de];
 		fp[dd] = snake(delta, v0 > v1 ? v0 : v1, s1, s2);
+        // if(threshold&&p>threshold)return -1
 	}
 	return (p - 1) * 2;
 }
 
 export function editONP(str1: string, str2: string) {
+    const threshold=0.8
 	const m = Math.max(str1.length, str2.length);
-	const d = editDistanceONP(str1, str2);
+	const d = editDistanceONP(str1, str2,(1-threshold)*m);
+	return 1 - d / m;
+}
+
+function levenshteinDistance(str1: string, str2: string, thresholdp: number) {
+	let s1: string;
+	let s2: string;
+	let len1: number;
+	let len2: number;
+	if (str1.length < str2.length) {
+		s1 = str1;
+		s2 = str2;
+	} else {
+		s1 = str2;
+		s2 = str1;
+	}
+	len1 = s1.length;
+	len2 = s2.length;
+	let threshold = thresholdp;
+	if (thresholdp == null || thresholdp === 0 || thresholdp > len2) {
+		threshold = len2;
+	}
+	if (len2 - len1 >= threshold || len1 === 0) {
+		return threshold;
+	}
+	let r: number;
+	let c: number;
+	let min = 0;
+	let ins: number;
+	let sub: number;
+	//d = new Array(len2);
+	const d = [];
+
+	for (c = 1; c <= len2; c++) {
+		//d[c-1] = c;
+		d.push(c);
+		// Packed Array
+		// see http://nmi.jp/2019-06-09-The-reason-you-should-avoid-new-array-100
+	}
+	for (r = 0; r < len1; r++) {
+		ins = min = r + 1;
+		let minDistance = len2;
+		for (c = 0; c < len2; c++) {
+			//sub = ins - (s1[r] != s2[c] ? 0: 1);
+			sub = ins - (s1.charCodeAt(r) !== s2.charCodeAt(c) ? 0 : 1);
+			ins = d[c] + 1;
+			//del = min + 1;
+			//min = del < ins ? (del < sub ? del: sub): (ins < sub ? ins: sub);
+			min = min < ins ? (min < sub ? min + 1 : sub) : ins < sub ? ins : sub;
+			d[c] = min;
+			if (min < minDistance) {
+				minDistance = min;
+			}
+		}
+		if (minDistance >= threshold) {
+			return threshold;
+		}
+	}
+	return min > threshold ? threshold : min;
+}
+
+export function levenshtein(str1: string, str2: string, ) {
+	const threshold = 0.8
+	const m = Math.max(str1.length, str2.length);
+	const d = levenshteinDistance(str1, str2, (1 - threshold) * m);
 	return 1 - d / m;
 }
