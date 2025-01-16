@@ -1,9 +1,7 @@
-import { useState, ChangeEvent } from "react";
-import { filterAlgo, searchAlgo } from "./types";
-import { editONP } from "./distance";
-import moji from "Moji";
-
-const musicMap = new Map<string, string>();
+import { useState, type ChangeEvent } from "react";
+import type { music, searchAlgo } from "./types";
+import { del } from "./distance";
+import { parse } from "./dic";
 
 export function Search({
 	algo,
@@ -35,41 +33,56 @@ export function Search({
 	);
 }
 
-const createSearchFn = (word: string): searchAlgo["fn"] | undefined => {
-	if (word === "") return undefined;
-	const regexp = new RegExp(parse(word));
+const createSearchFn = (query: string): searchAlgo["fn"] | undefined => {
+	if (query === "") return undefined;
+	const regexp = new RegExp(parse(query));
 	return (m) => m.filter((v) => regexp.test(parse(v.name)) || regexp.test(parse(v.composer)));
 };
-const createFuzzySearchFn = (word: string): searchAlgo["fn"] | undefined => {
-	if (word === "") return undefined;
+const createFuzzySearchFn = (query: string): searchAlgo["fn"] | undefined => {
+	if (query === "") return undefined;
+	const regexp = new RegExp(parse(query));
 	return (m) => {
-		const searched = m
-			.map((v) => ({ m: v, d: Math.max(editONP(word, v.name), editONP(word, v.composer)) }))
-			.filter((v) => v.d > 0.6);
-		searched.sort((a, b) => b.d - a.d);
+		const mapfn = (v: music): { m: music; d: number; sw: "composer" | "name" } => {
+			if (regexp.test(parse(v.name))) return { m: v, d: -1, sw: "name" };
+			if (regexp.test(parse(v.composer))) return { m: v, d: -1, sw: "composer" };
+			const nameScore = del(parse(v.name), parse(query));
+			const composerScore = del(parse(v.composer), parse(query));
+			return { m: v, d: Math.min(nameScore, composerScore), sw: composerScore < nameScore ? "composer" : "name" };
+		};
+		const searched = m.map(mapfn).filter((v) => v.d < Math.min(5, query.length - 1));
+		searched.sort((a, b) => (a.d === b.d ? a.m[a.sw].length - b.m[b.sw].length : a.d - b.d));
 		console.log(searched);
 		return searched.map((v) => v.m);
 		// return m
 	};
 };
-const dict: [string, string][] = [
-	["Ö<3rf10₩", "overflow"],
-	["・", ""],
-];
-function parse(str: string) {
-    if(!str)return ""
-	if (musicMap.has(str)) return musicMap.get(str) ?? "";
-	try{let parsed = moji(str)
-		.convert("ZE", "HE")
-		.convert("HK", "ZK")
-		.convert("KK", "HG")
-		.reject("HS")
-		.reject("ZS")
-		.toString()
-		.toLowerCase();
-	for (const [bef, aft] of dict) {
-		parsed = parsed.replace(new RegExp(bef, "g"), aft);
-	}
-	musicMap.set(str, parsed);
-	return parsed;}catch(e){console.error(e);return ""}
-}
+// const createFuzzySearchFn2 = (query: string): searchAlgo["fn"] | undefined => {
+// 	if (query === "") return undefined;
+// 	return (m) => {
+// 		const mapfn = (v: music): { m: music; d: number; sw: "composer" | "name" } => {
+// 			const nameScore = editONP(query, v.name);
+// 			const composerScore = editONP(query, v.composer);
+// 			return { m: v, d: Math.max(nameScore, composerScore), sw: composerScore > nameScore ? "composer" : "name" };
+// 		};
+// 		const searched = m.map(mapfn).filter((v) => v.d > 0);
+// 		searched.sort((a, b) => (a.d === b.d ? a.m[a.sw].length - b.m[b.sw].length : b.d - a.d));
+// 		console.log(searched);
+// 		return searched.map((v) => v.m);
+// 		// return m
+// 	};
+// };
+// const createFuzzySearchFn3 = (query: string): searchAlgo["fn"] | undefined => {
+// 	if (query === "") return undefined;
+// 	return (m) => {
+// 		const mapfn = (v: music): { m: music; d: number; sw: "composer" | "name" } => {
+// 			const nameScore = editDistanceONP(parse(v.name), parse(query));
+// 			const composerScore = editDistanceONP(parse(v.composer), parse(query));
+// 			return { m: v, d: Math.min(nameScore, composerScore), sw: composerScore < nameScore ? "composer" : "name" };
+// 		};
+// 		const searched = m.map(mapfn).filter((v) => v.d < Math.min(5, query.length - 1));
+// 		searched.sort((a, b) => (a.d === b.d ? a.m[a.sw].length - b.m[b.sw].length : a.d - b.d));
+// 		console.log(searched);
+// 		return searched.map((v) => v.m);
+// 		// return m
+// 	};
+// };

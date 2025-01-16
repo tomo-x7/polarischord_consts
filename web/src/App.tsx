@@ -1,5 +1,5 @@
 import { type ReactNode, Suspense, useEffect, useState } from "react";
-import { filterAlgo, searchAlgo, type metadata, type musics, type sortData } from "./types";
+import type { filterAlgo, searchAlgo, metadata, musics, sortData } from "./types";
 import { Data } from "./Data";
 import type {} from "./sortAlgo";
 import { Sort } from "./Sort";
@@ -7,13 +7,13 @@ import { Search } from "./Search";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
-	const [filter,setFilter]=useState<filterAlgo>()
-	const [searchAlgo,setSearchAlgo]=useState<searchAlgo>()
+	const [filter, setFilter] = useState<filterAlgo>();
+	const [searchAlgo, setSearchAlgo] = useState<searchAlgo>();
 	return (
 		<>
 			<h1 className="text-3xl">ポラリスコード定数一覧</h1>
 			<main className="tablet:px-3">
-				<Search algo={searchAlgo} setAlgo={setSearchAlgo}/>
+				<Search algo={searchAlgo} setAlgo={setSearchAlgo} />
 				<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
 				<Suspense fallback={<span>loading...</span>}>
 					<Data data={data} sort={sort} filter={filter} search={searchAlgo} />
