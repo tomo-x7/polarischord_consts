@@ -12,7 +12,7 @@ export default function App({ data }: { data: Promise<{ data: musics; meta: meta
 	return (
 		<>
 			<h1 className="text-3xl">ポラリスコード定数一覧</h1>
-			<main className="sp:px-3">
+			<main className="tablet:px-3">
 				<Search algo={searchAlgo} setAlgo={setSearchAlgo}/>
 				<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
 				<Suspense fallback={<span>loading...</span>}>

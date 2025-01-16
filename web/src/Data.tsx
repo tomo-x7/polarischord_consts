@@ -1,4 +1,4 @@
-import { use } from "react";
+import { Suspense, use } from "react";
 import type { musics, metadata, sortData, filterAlgo, searchAlgo } from "./types";
 import { Music } from "./Music";
 import { sortAlgos } from "./sortAlgo";
@@ -23,7 +23,7 @@ export function Data({
 
 	return (
 		<>
-			<div className="w-min sp:w-auto">
+			<div className="max-w-full w-min tablet:w-auto">
 				{musicdata.map((m, i) => (
 					<Music music={m} bg={i % 2 === 0 ? "#fff" : "#eee"} key={m.name} />
 				))}
