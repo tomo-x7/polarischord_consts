@@ -1,4 +1,4 @@
-import moji from "Moji";
+import moji from "moji";
 const musicMap = new Map<string, string>();
 const dict: [string, string][] = [
 	["ö", "o"],
