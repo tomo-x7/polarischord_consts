@@ -80,15 +80,6 @@ jobs:
           title: deploy skipped
           nodetail: true
       
-      - name: build error notify
-        if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
-        uses: sarisia/actions-status-discord@v1
-        with:
-          content: "error! <@1111261400157929482>"
-          color: 0xFF0000
-          title: build error
-          noprefix: true
-      
       - name: build error
         if: env.BUILD_CODE!=0&&env.BUILD_CODE!=11
         run: exit 1
@@ -111,7 +102,7 @@ jobs:
           title: deploy success
           nodetail: true
 
-      - name: actions error notify
+      - name: error notify
         if: failure()
         uses: sarisia/actions-status-discord@v1
         with:
