@@ -20,23 +20,44 @@ export function Sort({
 		setSort({ algo: ev.target.value as keyof typeof sortAlgos, reverse: now.reverse });
 	return (
 		<>
-			<div className="mt-5 mb-2">
+			<div>
 				<label>
 					並べ替え
-					<select className="mr-4 ml-1" onChange={onSelectChange} value={now.algo} disabled={!canSort}>
-						{algoKeys.map((k) => (
-							<option key={k} value={k}>
-								{algoNames[k]}
-							</option>
-						))}
+					<select
+						className="mr-4 ml-1 w-40"
+						onChange={onSelectChange}
+						value={canSort ? now.algo : "fuzzy"}
+						disabled={!canSort}
+					>
+						{!canSort && <option value="fuzzy">関連度</option>}
+						{canSort &&
+							algoKeys.map((k) => (
+								<option key={k} value={k}>
+									{algoNames[k]}
+								</option>
+							))}
 					</select>
 				</label>
-				<Radio name="rev" value="0" checked={!now.reverse} onchange={onRadioChange} disabled={!canSort}>
-					昇順
-				</Radio>
-				<Radio name="rev" value="1" checked={now.reverse} onchange={onRadioChange} disabled={!canSort}>
-					降順
-				</Radio>
+				<span className="whitespace-nowrap">
+					<Radio
+						name="rev"
+						value="0"
+						checked={canSort ? !now.reverse : false}
+						onchange={onRadioChange}
+						disabled={!canSort}
+					>
+						昇順
+					</Radio>
+					<Radio
+						name="rev"
+						value="1"
+						checked={canSort ? now.reverse : true}
+						onchange={onRadioChange}
+						disabled={!canSort}
+					>
+						降順
+					</Radio>
+				</span>
 			</div>
 		</>
 	);

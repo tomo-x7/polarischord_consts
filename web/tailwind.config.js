@@ -6,7 +6,7 @@ import plugin from "tailwindcss/plugin";
 export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
-		extend: { screens: { sp: { max: "480px" }, tablet: { max: "720px" } } },
+		extend: { screens: { tablet: { max: "720px" }, sp: { max: "480px" }, forFilter: { max: "570px" } } },
 	},
 	plugins: [
 		plugin(({ addVariant }) => {

@@ -21,14 +21,17 @@ export function Search({
 	};
 	return (
 		<>
-			<label>
-				検索
-				<input type="text" onChange={onWordInput} value={word ?? ""} />
-			</label>
-			<label>
-				<input type="checkbox" onChange={onFuzzyInput} checked={isFuzzy} />
-				あいまい検索
-			</label>
+			<div>
+				<label className="mr-2">
+					検索
+					<input className="w-60 tablet:w-52 sp:w-40" type="text" onChange={onWordInput} value={word ?? ""} />
+				</label>
+				<wbr />
+				<label className="whitespace-nowrap">
+					<input type="checkbox" onChange={onFuzzyInput} checked={isFuzzy} />
+					あいまい検索
+				</label>
+			</div>
 		</>
 	);
 }

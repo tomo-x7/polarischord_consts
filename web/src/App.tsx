@@ -8,15 +8,17 @@ import { Filter } from "./Filter";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
-	const [filter, setFilter] = useState<filterAlgo>({fn:defaultFilter});
+	const [filter, setFilter] = useState<filterAlgo>({ fn: defaultFilter });
 	const [searchAlgo, setSearchAlgo] = useState<searchAlgo>();
 	return (
 		<>
 			<h1 className="text-3xl">ポラリスコード定数一覧</h1>
 			<main className="tablet:px-3">
-				<Search algo={searchAlgo} setAlgo={setSearchAlgo} />
-				<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
-				<Filter setFilter={setFilter}/>
+				<div className="mt-5 mb-2">
+					<Search algo={searchAlgo} setAlgo={setSearchAlgo} />
+					<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
+					<Filter setFilter={setFilter} />
+				</div>
 				<Suspense fallback={<span>loading...</span>}>
 					<Data data={data} sort={sort} filterFn={filter} search={searchAlgo} />
 				</Suspense>
