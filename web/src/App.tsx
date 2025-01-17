@@ -4,10 +4,11 @@ import { Data } from "./Data";
 import type {} from "./sortAlgo";
 import { Sort } from "./Sort";
 import { Search } from "./Search";
+import { Filter } from "./Filter";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
-	const [filter, setFilter] = useState<filterAlgo>();
+	const [filter, setFilter] = useState<filterAlgo>({fn:defaultFilter});
 	const [searchAlgo, setSearchAlgo] = useState<searchAlgo>();
 	return (
 		<>
@@ -15,8 +16,9 @@ export default function App({ data }: { data: Promise<{ data: musics; meta: meta
 			<main className="tablet:px-3">
 				<Search algo={searchAlgo} setAlgo={setSearchAlgo} />
 				<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
+				<Filter setFilter={setFilter}/>
 				<Suspense fallback={<span>loading...</span>}>
-					<Data data={data} sort={sort} filter={filter} search={searchAlgo} />
+					<Data data={data} sort={sort} filterFn={filter} search={searchAlgo} />
 				</Suspense>
 			</main>
 			<Footer />
@@ -74,3 +76,5 @@ function Footer() {
 		</footer>
 	);
 }
+
+const defaultFilter = () => true;

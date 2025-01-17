@@ -6,15 +6,15 @@ import { sortAlgos } from "./sortAlgo";
 export function Data({
 	data,
 	sort: { algo: algoName, reverse },
-	filter,
+	filterFn,
 	search,
-}: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData; filter?: filterAlgo; search?: searchAlgo }) {
+}: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData; filterFn: filterAlgo; search?: searchAlgo }) {
 	const { data: origindata, meta } = use(data);
 
 	const { fn, canSort = true } = search ?? {};
 	const musicDataPromise = dosync(() => {
 		//検索を実行
-		const musicdata = (fn ? fn(origindata) : origindata).filter(filter ?? defaultFilter);
+		const musicdata = (fn ? fn(origindata) : origindata).filter(filterFn.fn);
 		//ソート
 		if (canSort) {
 			const algo = sortAlgos[algoName];
@@ -35,8 +35,6 @@ export function Data({
 	);
 }
 
-const defaultFilter = () => true;
-
 function DataViews({ dataPromise }: { dataPromise: Promise<musics> | musics }) {
 	const data = Array.isArray(dataPromise) ? dataPromise : use(dataPromise);
 	return (
@@ -53,7 +51,7 @@ function DataViews({ dataPromise }: { dataPromise: Promise<musics> | musics }) {
 function searchAsync(originalData: musics, fn: searchAlgo["fn"] | undefined, filter: filterAlgo) {
 	return new Promise<musics>((resolve) => {
 		setTimeout(() => {
-			resolve((fn ? fn(originalData) : originalData).filter(filter));
+			resolve((fn ? fn(originalData) : originalData).filter(filter.fn));
 		}, 0);
 	});
 }
