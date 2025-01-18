@@ -5,12 +5,19 @@ const colors = ["#b7fcff", "#b7ffdf", "#fff5ca", "#ffd6f7"] as const;
 export function Music({ music, bg }: { music: music; bg: string }) {
 	return (
 		<>
-			<div className="p-1 flex justify-between gap-3 sp:flex-col sp:gap-0" style={{ backgroundColor: bg }}>
-				<div>
-					<div className="text-xl sp:text-base">{music.name}</div>
-					<div className="text-sm sp:text-xs">{music.composer || "???"}</div>
+			<div
+				className="p-1 max-w-full flex justify-between gap-3 tablet:flex-col sp:gap-0"
+				style={{ backgroundColor: bg }}
+			>
+				<div className="overflow-hidden">
+					<div className="text-xl sp:text-base whitespace-nowrap overflow-hidden text-ellipsis">
+						{music.name}
+					</div>
+					<div className="text-sm sp:text-xs whitespace-nowrap overflow-hidden text-ellipsis">
+						{music.composer || "???"}
+					</div>
 				</div>
-				<div className="flex justify-between flex-row gap-4 items-center sp:px-4">
+				<div className="flex flex-shrink-0 justify-between flex-row gap-4 items-center sp:px-4">
 					{diffs
 						.map((p) => parseConst(music, p))
 						.map((n, i) => (

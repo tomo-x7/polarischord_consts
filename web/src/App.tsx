@@ -1,18 +1,26 @@
 import { type ReactNode, Suspense, useEffect, useState } from "react";
-import type { metadata, musics } from "./types";
+import type { filterAlgo, searchAlgo, metadata, musics, sortData } from "./types";
 import { Data } from "./Data";
-import type { sortData } from "./sortAlgo";
+import type {} from "./sortAlgo";
 import { Sort } from "./Sort";
+import { Search } from "./Search";
+import { Filter } from "./Filter";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
+	const [filter, setFilter] = useState<filterAlgo>({ fn: defaultFilter });
+	const [searchAlgo, setSearchAlgo] = useState<searchAlgo>();
 	return (
 		<>
 			<h1 className="text-3xl">ポラリスコード定数一覧</h1>
-			<main className="sp:px-3">
-				<Sort setSort={setsort} now={sort} />
+			<main className="tablet:px-3">
+				<div className="mt-5 mb-2">
+					<Search algo={searchAlgo} setAlgo={setSearchAlgo} />
+					<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
+					<Filter setFilter={setFilter} />
+				</div>
 				<Suspense fallback={<span>loading...</span>}>
-					<Data data={data} sort={sort} />
+					<Data data={data} sort={sort} filterFn={filter} search={searchAlgo} />
 				</Suspense>
 			</main>
 			<Footer />
@@ -70,3 +78,5 @@ function Footer() {
 		</footer>
 	);
 }
+
+const defaultFilter = () => true;

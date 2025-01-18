@@ -107,6 +107,6 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           content: "error! <@1111261400157929482>"
-          color: 0x00FF00
+          color: 0xFF0000
           title: actions error
           noprefix: true

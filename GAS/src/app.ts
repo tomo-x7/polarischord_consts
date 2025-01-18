@@ -20,7 +20,16 @@ type data = {
 	diff: diffs;
 	consts: consts;
 };
-type out = [string, string, number | "" | "-", number | "" | "-", number | "", number | "", number | "", number | ""][];
+type out = [
+	string | number,
+	string | number,
+	number | "" | "-",
+	number | "" | "-",
+	number | "",
+	number | "",
+	number | "",
+	number | "",
+][];
 function main(e: GoogleAppsScript.Events.DoGet): Res {
 	verify(e.parameter.sign, e.parameter.data);
 	const doc = SpreadsheetApp.openByUrl(SHEATURL);
@@ -34,8 +43,8 @@ function main(e: GoogleAppsScript.Events.DoGet): Res {
 			const [name, composer, diffInf, constInf, diffHard, constHard, diffNormal, diffEasy] = raw;
 			if (name === "") return undefined;
 			return {
-				name,
-				composer,
+				name: String(name),
+				composer: String(composer),
 				diff: {
 					inf: parseInf(diffInf),
 					hard: numOrZero(diffHard),
@@ -62,7 +71,7 @@ function test() {
 	const r = doGet(data);
 	console.log(r.getContent());
 }
-test();
+
 const numOrZero = (n: unknown) => (typeof n === "number" && !Number.isNaN(n) ? n : 0);
 const parseInf = (num: unknown) => (num === "-" ? -1 : numOrZero(num));
 function verify(sign: string, data: string) {

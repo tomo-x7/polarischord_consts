@@ -1,7 +1,5 @@
-import type { music } from "./types";
+import type { sortAlgo } from "./types";
 
-export type sortAlgo = (a: music, b: music) => number;
-export type sortData = { algo: keyof typeof sortAlgos; reverse: boolean };
 const ByName: sortAlgo = (a, b) => (a.name > b.name ? 1 : -1);
 const ByComposer: sortAlgo = (a, b) => {
 	if (a.composer === b.composer) return ByName(a, b);
