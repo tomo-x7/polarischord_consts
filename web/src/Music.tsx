@@ -41,9 +41,10 @@ function parseConst(music: music, lev: "easy" | "normal" | "hard" | "inf") {
 	//diffが0の場合(inf以外)不明
 	if (diff === 0) return "?";
 	//easyとnormalの場合、定数は表示しないで難易度のみ表示
-	if (lev === "easy" || lev === "normal") {
-		return diff.toString();
-	}
+	if (lev === "easy" || lev === "normal") return diff.toString();
+	//9以下は定数が存在しない(9.0)と思われる
+	if (diff <= 9) return diff.toString();
+
 	const consts = music.consts[lev];
 	//diffはわかっているがconstsが不明の場合、12.?のような形式で表示
 	if (consts === 0 || consts == null) return `${diff.toString()}.?`;
