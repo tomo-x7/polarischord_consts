@@ -12,7 +12,7 @@ export default function App({ data }: { data: Promise<{ data: musics; meta: meta
 	const [searchAlgo, setSearchAlgo] = useState<searchAlgo>();
 	return (
 		<>
-			<h1 className="text-3xl">ポラリスコード定数一覧</h1>
+			<h1 className="text-3xl">ポラリスコード譜面定数一覧</h1>
 			<main className="tablet:px-3">
 				<div className="mt-5 mb-2">
 					<Search algo={searchAlgo} setAlgo={setSearchAlgo} />
