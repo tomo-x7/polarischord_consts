@@ -1,11 +1,11 @@
 import { type ReactNode, Suspense, useEffect, useState } from "react";
-import type { filterAlgo, searchAlgo, metadata, musics, sortData } from "./types";
 import { Data } from "./Data";
-import type {} from "./sortAlgo";
-import { Sort } from "./Sort";
-import { Search } from "./Search";
 import { Filter } from "./Filter";
 import { Loading } from "./Loading";
+import { Search } from "./Search";
+import { Sort } from "./Sort";
+import type {} from "./sortAlgo";
+import type { filterAlgo, metadata, musics, searchAlgo, sortData } from "./types";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });

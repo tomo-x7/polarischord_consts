@@ -1,5 +1,5 @@
 import { parse } from "./dic";
-import { music, musics } from "./types";
+import type { music, musics } from "./types";
 
 export type WorkerMessage = {
 	query: string;

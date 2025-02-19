@@ -1,7 +1,7 @@
-import { useState, type ChangeEvent } from "react";
-import type { music, searchAlgo } from "./types";
+import { type ChangeEvent, useState } from "react";
 import { parse } from "./dic";
 import fuzzyWorker from "./fuzzyWorker?worker";
+import type { music, searchAlgo } from "./types";
 const worker = new fuzzyWorker();
 
 export function Search({

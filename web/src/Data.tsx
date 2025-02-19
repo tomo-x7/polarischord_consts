@@ -1,8 +1,8 @@
 import { use, useEffect, useState } from "react";
-import type { musics, metadata, sortData, filterAlgo, searchAlgo } from "./types";
+import { Loading } from "./Loading";
 import { Music } from "./Music";
 import { sortAlgos } from "./sortAlgo";
-import { Loading } from "./Loading";
+import type { filterAlgo, metadata, musics, searchAlgo, sortData } from "./types";
 
 export function Data({
 	data,

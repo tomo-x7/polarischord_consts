@@ -16,8 +16,12 @@ export function LoadingElem({ bg }: { bg: string }) {
 				style={{ backgroundColor: bg }}
 			>
 				<div className="overflow-hidden">
-					<div className="text-xl sp:text-base whitespace-nowrap overflow-hidden text-ellipsis text-transparent">{"loading"}</div>
-					<div className="text-sm sp:text-xs whitespace-nowrap overflow-hidden text-ellipsis text-transparent">{"loading"}</div>
+					<div className="text-xl sp:text-base whitespace-nowrap overflow-hidden text-ellipsis text-transparent">
+						{"loading"}
+					</div>
+					<div className="text-sm sp:text-xs whitespace-nowrap overflow-hidden text-ellipsis text-transparent">
+						{"loading"}
+					</div>
 				</div>
 				<div className="flex flex-shrink-0 justify-between flex-row gap-4 items-center sp:px-4">
 					{["-", "-", "-", "-"].map((n, i) => (
