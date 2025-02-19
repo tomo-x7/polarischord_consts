@@ -12,9 +12,9 @@ export function Data({
 	const { data: origindata, meta } = use(data);
 
 	const { fn, canSort = true } = search ?? {};
-	const musicDataPromise = dosync(() => {
+	const musicDataPromise = dosync(async () => {
 		//検索を実行
-		const musicdata = (fn ? fn(origindata) : origindata).filter(filterFn.fn);
+		const musicdata = (await (fn ? fn(origindata) : origindata)).filter(filterFn.fn);
 		//ソート
 		if (canSort) {
 			const algo = sortAlgos[algoName];
@@ -38,30 +38,12 @@ export function Data({
 function DataViews({ dataPromise }: { dataPromise: Promise<musics> | musics }) {
 	const data = Array.isArray(dataPromise) ? dataPromise : use(dataPromise);
 	return (
-		// <Suspense fallback={<>loading...</>}>
 		<div className="max-w-full w-min tablet:w-auto">
 			{data.map((m, i) => (
 				<Music music={m} bg={i % 2 === 0 ? "#fff" : "#eee"} key={m.name} />
 			))}
 		</div>
-		// </Suspense>
 	);
-}
-
-function searchAsync(originalData: musics, fn: searchAlgo["fn"] | undefined, filter: filterAlgo) {
-	return new Promise<musics>((resolve) => {
-		setTimeout(() => {
-			resolve((fn ? fn(originalData) : originalData).filter(filter.fn));
-		}, 0);
-	});
-}
-
-function doAsync<T>(action: () => T) {
-	return new Promise<T>((resolve) => {
-		setTimeout(() => {
-			resolve(action());
-		}, 0);
-	});
 }
 function dosync<T>(action: () => T) {
 	return action();

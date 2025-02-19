@@ -30,5 +30,12 @@
 		"typescript": "~5.6.2",
 		"vite": "^6.0.5",
 		"wrangler": "^3.101.0"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@swc/core",
+			"esbuild",
+			"workerd"
+		]
 	}
 }
