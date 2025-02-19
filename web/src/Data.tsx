@@ -48,7 +48,7 @@ function DataViews({ dataPromise }: { dataPromise: Promise<musics> | musics }) {
 	return (
 		<>
 			{dataState ? (
-				<div className="max-w-full min-w-[700px] w-min tablet:w-auto">
+				<div className="max-w-full min-w-[700px] w-min tablet:min-w-0 tablet:w-auto">
 					{dataState.map((m, i) => (
 						<Music music={m} bg={i % 2 === 0 ? "#fff" : "#eee"} key={m.name} />
 					))}
