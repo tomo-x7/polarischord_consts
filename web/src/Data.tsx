@@ -1,7 +1,8 @@
-import { use } from "react";
+import { use, useEffect, useState } from "react";
 import type { musics, metadata, sortData, filterAlgo, searchAlgo } from "./types";
 import { Music } from "./Music";
 import { sortAlgos } from "./sortAlgo";
+import { Loading } from "./Loading";
 
 export function Data({
 	data,
@@ -36,13 +37,26 @@ export function Data({
 }
 
 function DataViews({ dataPromise }: { dataPromise: Promise<musics> | musics }) {
-	const data = Array.isArray(dataPromise) ? dataPromise : use(dataPromise);
+	const [dataState, setData] = useState<musics>();
+	useEffect(() => {
+		if (Array.isArray(dataPromise)) {
+			setData(dataPromise);
+		} else {
+			dataPromise.then(setData);
+		}
+	}, [dataPromise]);
 	return (
-		<div className="max-w-full w-min tablet:w-auto">
-			{data.map((m, i) => (
-				<Music music={m} bg={i % 2 === 0 ? "#fff" : "#eee"} key={m.name} />
-			))}
-		</div>
+		<>
+			{dataState ? (
+				<div className="max-w-full min-w-[700px] w-min tablet:w-auto">
+					{dataState.map((m, i) => (
+						<Music music={m} bg={i % 2 === 0 ? "#fff" : "#eee"} key={m.name} />
+					))}
+				</div>
+			) : (
+				<Loading />
+			)}
+		</>
 	);
 }
 function dosync<T>(action: () => T) {

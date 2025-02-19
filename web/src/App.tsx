@@ -5,6 +5,7 @@ import type {} from "./sortAlgo";
 import { Sort } from "./Sort";
 import { Search } from "./Search";
 import { Filter } from "./Filter";
+import { Loading } from "./Loading";
 
 export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
 	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
@@ -19,7 +20,7 @@ export default function App({ data }: { data: Promise<{ data: musics; meta: meta
 					<Sort setSort={setsort} now={sort} canSort={searchAlgo?.canSort} />
 					<Filter setFilter={setFilter} />
 				</div>
-				<Suspense fallback={<span>loading...</span>}>
+				<Suspense fallback={<Loading />}>
 					<Data data={data} sort={sort} filterFn={filter} search={searchAlgo} />
 				</Suspense>
 			</main>
