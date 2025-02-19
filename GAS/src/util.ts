@@ -55,16 +55,6 @@ class ScriptError extends Error {
 	}
 }
 
-class SignMissingError extends ScriptError {
-	constructor(errorMessage?: string) {
-		super(ResponseType.SignRequired, errorMessage);
-	}
-}
-class SignInvalidError extends ScriptError {
-	constructor(errorMessage?: string) {
-		super(ResponseType.SignInvalid, errorMessage);
-	}
-}
 class InternalServerError extends ScriptError {
 	constructor(errorMessage?: string) {
 		super(ResponseType.InternalServerError, errorMessage);
@@ -76,13 +66,4 @@ class InvalidRequestError extends ScriptError {
 	}
 }
 
-export {
-	type Res,
-	type FailedResponse,
-	ScriptError,
-	SignInvalidError,
-	SignMissingError,
-	InternalServerError,
-	InvalidRequestError,
-	strToU8arr,
-};
+export { type Res, type FailedResponse, ScriptError, InternalServerError, InvalidRequestError, strToU8arr };

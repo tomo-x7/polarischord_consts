@@ -20,7 +20,6 @@ jobs:
       NODE_VERSION: 20
       PNPM_VERSION: 9
       GAS_URL: ${{secrets.GAS_URL}}
-      PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
       BUILD_CODE: 0
 
     defaults:
