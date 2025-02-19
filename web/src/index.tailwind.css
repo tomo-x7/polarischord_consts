@@ -19,7 +19,8 @@ select {
 	background-size: 16px 16px;
 	cursor: pointer;
 }
-select:disabled,input[type="text"]:disabled{
+select:disabled,
+input[type="text"]:disabled {
 	border: 1px solid #555;
 	color: #555;
 	background: #fff
@@ -27,7 +28,9 @@ select:disabled,input[type="text"]:disabled{
 		no-repeat right 5px top 55%;
 	cursor: not-allowed;
 }
-.disabled{color: #555;}
+.disabled {
+	color: #555;
+}
 input[type="text"] {
 	outline: none;
 	appearance: none;

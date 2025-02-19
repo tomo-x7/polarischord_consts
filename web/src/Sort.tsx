@@ -20,7 +20,7 @@ export function Sort({
 		setSort({ algo: ev.target.value as keyof typeof sortAlgos, reverse: now.reverse });
 	return (
 		<>
-			<div className={canSort?"":"disabled"}>
+			<div className={`${canSort ? "" : "disabled"} my-1`}>
 				<label>
 					並べ替え
 					<select

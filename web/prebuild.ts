@@ -1,8 +1,8 @@
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
-import type { Res } from "../GAS/src/util";
 import path from "node:path";
 import { config } from "dotenv";
-import crypto from "node:crypto";
+import type { Res } from "../GAS/src/util";
 config();
 const { GAS_URL } = process.env;
 if (!GAS_URL) throw new Error("env not found");

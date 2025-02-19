@@ -17,4 +17,4 @@ export type sortData = { algo: keyof typeof sortAlgos; reverse: boolean };
 
 export type filterAlgo = { fn: (music: music) => boolean };
 
-export type searchAlgo = { fn: (musics: musics) => musics; canSort: boolean };
+export type searchAlgo = { fn: (musics: musics) => musics | Promise<musics>; canSort: boolean };
