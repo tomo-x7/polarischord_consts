@@ -2,6 +2,7 @@ import { type ChangeEvent, useState } from "react";
 import { parse } from "./dic";
 import fuzzyWorker from "./fuzzyWorker?worker";
 import type { music, searchAlgo } from "./types";
+import { useDebouncedCallback } from "use-debounce";
 const worker = new fuzzyWorker();
 
 export function Search({
@@ -10,26 +11,26 @@ export function Search({
 }: { algo: searchAlgo | undefined; setAlgo: React.Dispatch<React.SetStateAction<searchAlgo | undefined>> }) {
 	const [isFuzzy, setFuzzy] = useState(false);
 	const [word, setWord] = useState<string>("");
-	const onFuzzyInput = (ev: ChangeEvent<HTMLInputElement>) => {
+	const onFuzzyInput = useDebouncedCallback((ev: ChangeEvent<HTMLInputElement>) => {
 		setFuzzy(ev.target.checked);
 		const fn = ev.target.checked ? createFuzzySearchFn(word) : createSearchFn(word);
 		setAlgo(fn ? { fn, canSort: !ev.target.checked } : undefined);
-	};
-	const onWordInput = ({ target: { value: v } }: ChangeEvent<HTMLInputElement>) => {
+	}, 100);
+	const onWordInput = useDebouncedCallback(({ target: { value: v } }: ChangeEvent<HTMLInputElement>) => {
 		setWord(v);
 		const fn = isFuzzy ? createFuzzySearchFn(v) : createSearchFn(v);
 		setAlgo(fn ? { fn, canSort: !isFuzzy } : undefined);
-	};
+	}, 100);
 	return (
 		<>
 			<div>
 				<label className="mr-2">
 					検索
-					<input className="w-60 tablet:w-52 sp:w-40" type="text" onChange={onWordInput} value={word ?? ""} />
+					<input className="w-60 tablet:w-52 sp:w-40" type="text" onChange={onWordInput} />
 				</label>
 				<wbr />
 				<label className="whitespace-nowrap">
-					<input type="checkbox" onChange={onFuzzyInput} checked={isFuzzy} />
+					<input type="checkbox" onChange={onFuzzyInput} />
 					あいまい検索
 				</label>
 			</div>

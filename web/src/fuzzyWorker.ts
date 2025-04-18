@@ -16,7 +16,7 @@ addEventListener("message", (e: MessageEvent<WorkerMessage>) => {
 	};
 	const searched = e.data.musics.map(mapfn).filter((v) => v.d < Math.min(5, e.data.query.length - 1));
 	searched.sort((a, b) => (a.d === b.d ? a.m[a.sw].length - b.m[b.sw].length : a.d - b.d));
-	console.log(searched);
+	// console.log(searched);
 	postMessage(searched.map((v) => v.m));
 });
 
