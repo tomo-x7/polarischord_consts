@@ -66,7 +66,7 @@ function Footer() {
 		<footer className="sticky top-full bg-gray-400 text-black mt-4 pt-2">
 			<div>
 				developed by{" "}
-				<Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.bsky.social</Link>
+				<Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.win</Link>
 			</div>
 			<div>
 				ソースコードは
