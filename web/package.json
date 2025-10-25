@@ -12,8 +12,8 @@
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.4",
 		"moji": "^0.5.1",
-		"react": "19.0.0",
-		"react-dom": "^19.0.0",
+		"react": "19.2.0",
+		"react-dom": "19.2.0",
 		"tailwindcss": "^4.1.4",
 		"use-debounce": "^10.0.4"
 	},
