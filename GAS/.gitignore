@@ -1,5 +1,0 @@
-*.key
-*.key.pub
-test.js
-node_modules
-dist/

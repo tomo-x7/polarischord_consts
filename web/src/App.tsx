@@ -53,7 +53,7 @@ function GoTop() {
 				transition: "box-shadow .1s, opacity .3s",
 				opacity: scrollY < 30 ? 0 : 1,
 			}}
-			className="fixed bottom-4 right-4 text-4xl bg-blue-400 rounded-full h-14 w-14 sp:shadow-none hover:!shadow-none"
+			className="fixed bottom-4 right-4 text-4xl bg-blue-400 rounded-full h-14 w-14 sp:shadow-none hover:shadow-none!"
 			onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
 		>
 			↑
@@ -65,8 +65,7 @@ function Footer() {
 	return (
 		<footer className="sticky top-full bg-gray-400 text-black mt-4 pt-2">
 			<div>
-				developed by{" "}
-				<Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.win</Link>
+				developed by <Link href="https://bsky.app/profile/did:plc:qcwvyds5tixmcwkwrg3hxgxd/">@tomo-x.win</Link>
 			</div>
 			<div>
 				ソースコードは

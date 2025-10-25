@@ -25,4 +25,10 @@ dist-ssr
 
 .env
 
-public/data/**
+web/public/data/**
+
+*.key
+*.key.pub
+test.js
+node_modules
+dist/

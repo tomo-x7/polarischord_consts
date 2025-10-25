@@ -22,7 +22,6 @@ async function getData() {
 	return { data: data, meta: remotemeta };
 }
 const dataPromise = getData();
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<App data={dataPromise} />

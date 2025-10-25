@@ -9,7 +9,12 @@ export function Data({
 	sort: { algo: algoName, reverse },
 	filterFn,
 	search,
-}: { data: Promise<{ data: musics; meta: metadata }>; sort: sortData; filterFn: filterAlgo; search?: searchAlgo }) {
+}: {
+	data: Promise<{ data: musics; meta: metadata }>;
+	sort: sortData;
+	filterFn: filterAlgo;
+	search?: searchAlgo;
+}) {
 	const { data: origindata, meta } = use(data);
 
 	const { fn, canSort = true } = search ?? {};

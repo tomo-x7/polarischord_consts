@@ -1,14 +1,18 @@
 import { type ChangeEvent, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import { parse } from "./dic";
 import fuzzyWorker from "./fuzzyWorker?worker";
 import type { music, searchAlgo } from "./types";
-import { useDebouncedCallback } from "use-debounce";
+
 const worker = new fuzzyWorker();
 
 export function Search({
 	algo,
 	setAlgo,
-}: { algo: searchAlgo | undefined; setAlgo: React.Dispatch<React.SetStateAction<searchAlgo | undefined>> }) {
+}: {
+	algo: searchAlgo | undefined;
+	setAlgo: React.Dispatch<React.SetStateAction<searchAlgo | undefined>>;
+}) {
 	const [isFuzzy, setFuzzy] = useState(false);
 	const [word, setWord] = useState<string>("");
 	const onFuzzyInput = useDebouncedCallback((ev: ChangeEvent<HTMLInputElement>) => {
@@ -22,19 +26,17 @@ export function Search({
 		setAlgo(fn ? { fn, canSort: !isFuzzy } : undefined);
 	}, 100);
 	return (
-		<>
-			<div>
-				<label className="mr-2">
-					検索
-					<input className="w-60 tablet:w-52 sp:w-40" type="text" onChange={onWordInput} />
-				</label>
-				<wbr />
-				<label className="whitespace-nowrap">
-					<input type="checkbox" onChange={onFuzzyInput} />
-					あいまい検索
-				</label>
-			</div>
-		</>
+		<div>
+			<label className="mr-2">
+				検索
+				<input className="w-60 tablet:w-52 sp:w-40" type="text" onChange={onWordInput} />
+			</label>
+			<wbr />
+			<label className="whitespace-nowrap">
+				<input type="checkbox" onChange={onFuzzyInput} />
+				あいまい検索
+			</label>
+		</div>
 	);
 }
 

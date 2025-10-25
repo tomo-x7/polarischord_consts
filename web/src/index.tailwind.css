@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* biome-ignore lint/suspicious/noUnknownAtRules: tailwind syntax */
 @config "../tailwind.config.js";
 
 select {

@@ -1,0 +1,15 @@
+{
+	"name": "polarischord_consts",
+	"private": true,
+	"version": "1.0.0",
+	"scripts": {
+		"check": "biome check --write"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"packageManager": "pnpm@10.18.1",
+	"devDependencies": {
+		"@biomejs/biome": "2.2.3"
+	}
+}

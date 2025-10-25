@@ -18,22 +18,20 @@ export function Filter({ setFilter }: { setFilter: React.Dispatch<React.SetState
 		setFilter(createFilter(onlyInf, onlyConst, ev.target.checked));
 	};
 	return (
-		<>
-			<div className="flex flex-row gap-2 flex-wrap forFilter:flex-col forFilter:gap-0">
-				<label className="whitespace-nowrap">
-					<input type="checkbox" onChange={onlyInfChange} checked={onlyInf} />
-					infが存在しない曲を除外
-				</label>
-				<label className="whitespace-nowrap">
-					<input type="checkbox" onChange={onlyConstChange} checked={onlyConst} />
-					infの定数不明を除外
-				</label>
-				<label className="whitespace-nowrap">
-					<input type="checkbox" onChange={onlyNoConstChange} checked={onlyNoConst} />
-					infの定数判明済みを除外
-				</label>
-			</div>
-		</>
+		<div className="flex flex-row gap-2 flex-wrap forFilter:flex-col forFilter:gap-0">
+			<label className="whitespace-nowrap">
+				<input type="checkbox" onChange={onlyInfChange} checked={onlyInf} />
+				infが存在しない曲を除外
+			</label>
+			<label className="whitespace-nowrap">
+				<input type="checkbox" onChange={onlyConstChange} checked={onlyConst} />
+				infの定数不明を除外
+			</label>
+			<label className="whitespace-nowrap">
+				<input type="checkbox" onChange={onlyNoConstChange} checked={onlyNoConst} />
+				infの定数判明済みを除外
+			</label>
+		</div>
 	);
 }
 

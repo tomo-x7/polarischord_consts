@@ -1,0 +1,9 @@
+packages:
+  - GAS/
+  - web/
+
+onlyBuiltDependencies:
+  - '@swc/core'
+  - esbuild
+  - sharp
+  - workerd

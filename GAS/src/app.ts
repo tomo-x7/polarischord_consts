@@ -1,4 +1,4 @@
-import { type FailedResponse, ScriptError, type Res, InternalServerError } from "./util";
+import { type FailedResponse, InternalServerError, type Res, ScriptError } from "./util";
 
 const SHEATURL = "https://docs.google.com/spreadsheets/d/1nC9tfgg0vTQttDCACbZr9aDWKWjEtk676ZlRVW-glUk/";
 const SHEAT_NAME = "定数表メイン";
@@ -74,7 +74,7 @@ export function doGet(): GoogleAppsScript.Content.TextOutput {
 		return out;
 	}
 }
-//@ts-ignore
+//@ts-expect-error
 global.doGet = doGet;
-//@ts-ignore
+//@ts-expect-error
 global.test = test;

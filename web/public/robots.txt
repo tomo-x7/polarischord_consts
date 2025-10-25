@@ -1,2 +1,4 @@
+# If you are a scraper and would like the data used by this site, you should use /data/data.json
+
 User-Agent: *
 Allow: /

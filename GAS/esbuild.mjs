@@ -2,6 +2,7 @@
 import { build } from "esbuild";
 import { GasPlugin } from "esbuild-gas-plugin";
 import copy from "esbuild-plugin-copy";
+
 await build({
 	entryPoints: ["src/app.ts"],
 	outfile: "dist/app.js",

@@ -4,34 +4,30 @@ const diffs = ["easy", "normal", "hard", "inf"] as const;
 const colors = ["#b7fcff", "#b7ffdf", "#fff5ca", "#ffd6f7"] as const;
 export function Music({ music, bg }: { music: music; bg: string }) {
 	return (
-		<>
-			<div
-				className="p-1 max-w-full flex justify-between gap-3 tablet:flex-col sp:gap-0"
-				style={{ backgroundColor: bg }}
-			>
-				<div className="overflow-hidden">
-					<div className="text-xl sp:text-base whitespace-nowrap overflow-hidden text-ellipsis">
-						{music.name}
-					</div>
-					<div className="text-sm sp:text-xs whitespace-nowrap overflow-hidden text-ellipsis">
-						{music.composer || "???"}
-					</div>
-				</div>
-				<div className="flex flex-shrink-0 justify-between flex-row gap-4 items-center sp:px-4">
-					{diffs
-						.map((p) => parseConst(music, p))
-						.map((n, i) => (
-							<div
-								className="w-10 h-10 rounded-full flex justify-center items-center sp:text-xs sp:w-7 sp:h-7"
-								style={{ backgroundColor: colors[i] }}
-								key={music.name + n + i.toString()}
-							>
-								{n}
-							</div>
-						))}
+		<div
+			className="p-1 max-w-full flex justify-between gap-3 tablet:flex-col sp:gap-0"
+			style={{ backgroundColor: bg }}
+		>
+			<div className="overflow-hidden">
+				<div className="text-xl sp:text-base whitespace-nowrap overflow-hidden text-ellipsis">{music.name}</div>
+				<div className="text-sm sp:text-xs whitespace-nowrap overflow-hidden text-ellipsis">
+					{music.composer || "???"}
 				</div>
 			</div>
-		</>
+			<div className="flex shrink-0 justify-between flex-row gap-4 items-center sp:px-4">
+				{diffs
+					.map((p) => parseConst(music, p))
+					.map((n, i) => (
+						<div
+							className="w-10 h-10 rounded-full flex justify-center items-center sp:text-xs sp:w-7 sp:h-7"
+							style={{ backgroundColor: colors[i] }}
+							key={music.name + n + i.toString()}
+						>
+							{n}
+						</div>
+					))}
+			</div>
+		</div>
 	);
 }
 function parseConst(music: music, lev: "easy" | "normal" | "hard" | "inf") {

@@ -1,24 +1,4 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"files": {
-		"ignore": ["**/node_modules/**", "dist/**", "public/data/**"],
-		"include": ["*.*"]
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab",
-		"indentWidth": 4,
-		"lineWidth": 120,
-		"formatWithErrors": true
-	},
-	"linter": {
-		"rules": {
-			"a11y": { "useKeyWithClickEvents": "off" },
-			"style": { "noUselessElse": "off", "useImportType": "info" },
-			"correctness": { "noUnusedImports": "info" }
-		}
-	},
-	"overrides": [
-		{ "include": ["tsconfig.*.json"], "json": { "parser": { "allowComments": true, "allowTrailingCommas": true } } }
-	]
+	"$schema": "https://biomejs.dev/schemas/2.2.3/schema.json",
+	"extends": ["./shared/biome.jsonc"]
 }
