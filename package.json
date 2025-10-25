@@ -5,10 +5,10 @@
 	"scripts": {
 		"check": "biome check --write"
 	},
-	"keywords": [],
-	"author": "",
 	"license": "MIT",
-	"packageManager": "pnpm@10.18.1",
+	"packageManager": "pnpm@10.18.1","engines": {
+		"node": ">=22"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.3"
 	}

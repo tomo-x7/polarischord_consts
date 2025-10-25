@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NODE_VERSION: 22
       GAS_URL: ${{secrets.GAS_URL}}
       BUILD_CODE: 0
 
@@ -27,6 +26,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: start notify
         uses: sarisia/actions-status-discord@v1
@@ -35,18 +36,16 @@ jobs:
           title: start deploy
           nodetail: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
+        uses: pnpm/action-setup@v4.1.0
 
-      - name: Install Deps
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - name: Install deps
         run: pnpm install --frozen-lockfile
       
       - name: build
