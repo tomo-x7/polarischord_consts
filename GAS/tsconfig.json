@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
 		"target": "ES2019",
-		"module": "NodeNext",
-		"moduleResolution": "nodenext",
+		"module": "es2020",
+		"moduleResolution": "bundler",
 		"skipLibCheck": true,
 		"strict": true,
-		"noEmit": true
+		"noEmit": true,
+		"erasableSyntaxOnly": true
 	},
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts", "./deploy.ts", "./esbuild.ts"]
 }

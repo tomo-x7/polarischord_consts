@@ -1,26 +1,12 @@
-import { type FailedResponse, InternalServerError, type Res, ScriptError } from "./util";
+import { InternalServerError, InvalidTokenError, ScriptError } from "./error";
+import { logger } from "./logger";
+import type { data, out } from "./types";
+import { createErrorResponse, createResponse, numOrZero, parseInf } from "./util";
 
 const SHEATURL = "https://docs.google.com/spreadsheets/d/1nC9tfgg0vTQttDCACbZr9aDWKWjEtk676ZlRVW-glUk/";
 const SHEAT_NAME = "定数表メイン";
-type diffs = { easy: number; normal: number; hard: number; inf: number };
-type consts = { hard: number; inf: number };
-type data = {
-	name: string;
-	composer: string;
-	diff: diffs;
-	consts: consts;
-};
-type out = [
-	string | number,
-	string | number,
-	number | "" | "-",
-	number | "" | "-",
-	number | "",
-	number | "",
-	number | "",
-	number | "",
-][];
-function main(): Res {
+
+function main(): data[] {
 	const doc = SpreadsheetApp.openByUrl(SHEATURL);
 	const sheat = doc.getSheetByName(SHEAT_NAME);
 	if (!sheat) {
@@ -45,36 +31,46 @@ function main(): Res {
 		})
 		.filter((v) => v != null);
 
-	return { ok: true, payload: data };
+	return data;
 }
 
 function test() {
-	const r = doGet();
-	console.log(r.getContent());
+	const r = main();
+	console.log(JSON.stringify(r, undefined, 2));
 }
 
-const numOrZero = (n: unknown) => (typeof n === "number" && !Number.isNaN(n) ? n : 0);
-const parseInf = (num: unknown) => (num === "-" ? -1 : numOrZero(num));
-
-export function doGet(): GoogleAppsScript.Content.TextOutput {
-	const out = ContentService.createTextOutput();
-	out.setMimeType(ContentService.MimeType.JSON);
+// データ取得用
+// TOKENの都合・キャッシュ防止でPOST
+function doPost(ev: GoogleAppsScript.Events.DoPost) {
 	try {
-		const res = main();
-		out.setContent(JSON.stringify(res));
-		return out;
-	} catch (e) {
-		if (e instanceof ScriptError) {
-			const res: FailedResponse = { ok: false, error: e.payload };
-			out.setContent(JSON.stringify(res));
-		} else {
-			const res: FailedResponse = { ok: false, error: String(e) };
-			out.setContent(JSON.stringify(res));
+		const validToken = PropertiesService.getScriptProperties().getProperty("TOKEN");
+		if (!validToken) {
+			logger.fatal("TOKEN is not set");
+			throw new InternalServerError("TOKEN is not set");
 		}
-		return out;
+		if (ev.postData.contents !== validToken) {
+			throw new InvalidTokenError("Invalid Token");
+		}
+		const res = main();
+		return createResponse(res);
+	} catch (e) {
+		if (!(e instanceof ScriptError)) logger.fatal(e);
+		return createErrorResponse(e);
 	}
 }
-//@ts-expect-error
-global.doGet = doGet;
+// 定時デプロイ用
+function cron() {
+	try {
+		const data = main();
+		// GitHub Actionsに送信
+	} catch (e) {
+		logger.fatal(e);
+	}
+}
+
 //@ts-expect-error
 global.test = test;
+//@ts-expect-error
+global.doPost = doPost;
+//@ts-expect-error
+global.cron = cron;

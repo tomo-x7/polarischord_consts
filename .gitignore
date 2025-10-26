@@ -32,3 +32,5 @@ web/public/data/**
 test.js
 node_modules
 dist/
+
+.deploy

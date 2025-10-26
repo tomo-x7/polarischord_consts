@@ -4,8 +4,8 @@
 	"version": "1.0.0",
 	"scripts": {
 		"check": "biome check --write",
-		"gas": "pnpm --filter gas",
-		"web": "pnpm --filter web"
+		"gas": "pnpm -C gas ",
+		"web": "pnpm -C web "
 	},
 	"license": "MIT",
 	"packageManager": "pnpm@10.18.1",

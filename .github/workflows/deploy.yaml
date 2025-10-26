@@ -5,18 +5,13 @@ on:
   push: 
     branches: 
       - main
-  schedule: 
-    # 毎日0:15
-    - cron: "15 15 * * *"
-
-env:
-  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
 
 jobs:
   main:
     runs-on: ubuntu-latest
 
     env:
+      DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
       GAS_URL: ${{secrets.GAS_URL}}
       BUILD_CODE: 0
 
