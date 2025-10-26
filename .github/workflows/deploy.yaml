@@ -17,7 +17,7 @@ jobs:
 
     env:
       DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
-      GAS_URL: ${{secrets.GAS_URL}}
+      GAS_URL: ${{secrets.GAS_URL_PREVIEW}}
       GAS_TOKEN: ${{secrets.GAS_TOKEN}}
 
     defaults:
