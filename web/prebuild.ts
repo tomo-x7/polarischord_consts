@@ -2,11 +2,12 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "dotenv";
-import type { Response as GasRes } from "../GAS/src/util";
 
 config();
 const { GAS_URL, GAS_TOKEN } = process.env;
 if (GAS_URL == null || GAS_TOKEN == null) throw new Error("env not found");
+
+type GasRes = { ok: true; status: 200; payload: object } | { ok: false; status: number; name: string; message: string };
 
 const res = await fetch(GAS_URL, {
 	method: "POST",
