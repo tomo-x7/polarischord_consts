@@ -1,3 +1,5 @@
+import { formatForLog } from "../../shared/formatter";
+
 const WEBHOOK_URL = PropertiesService.getScriptProperties().getProperty("DISCORD_WEBHOOK");
 function webhook(payload: object) {
 	if (!WEBHOOK_URL) {
@@ -25,7 +27,29 @@ export const logger = {
 		console.error(`[ERROR] ${msg}`);
 	},
 	fatal: (msg: unknown) => {
-		console.error("FATAL ERROR:");
-		console.error(msg);
+		const formatted = formatForLog(msg);
+		console.error(`[FATAL] ${formatted}`);
+		webhook({
+			content: `<@1111261400157929482>`,
+			embeds: [
+				{
+					title: "Fatal Error",
+					color: 0xff0000,
+					description: `\`\`\`${formatted}\`\`\``,
+					timestamp: new Date().toISOString(),
+				},
+			],
+		});
+	},
+	skipped: () => {
+		webhook({
+			embeds: [
+				{
+					title: "deploy skipped",
+					color: 0xffff00,
+					timestamp: new Date().toISOString(),
+				},
+			],
+		});
 	},
 };

@@ -29,7 +29,7 @@ web/public/data/**
 
 *.key
 *.key.pub
-test.js
+test.*
 node_modules
 dist/
 

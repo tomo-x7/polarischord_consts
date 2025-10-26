@@ -21,13 +21,8 @@ async function main() {
 	console.log(`Deploy Version: ${version}`);
 	// リモートと同期
 	execSync("clasp push -f", { stdio: "inherit" });
-	// バージョンを作成
-	const out = execSync(`clasp create-version "${version}"`, { stdio: "pipe" });
-	console.log(out.toString());
-	const versionId = out.toString().match(/\d+/)?.[1];
-	if (!versionId) throw new Error("バージョンIDの取得に失敗");
 	// デプロイ
-	execSync(`clasp update-deployment ${deployId} -V ${versionId}`, { stdio: "inherit" });
+	execSync(`clasp update-deployment ${deployId}`, { stdio: "inherit" });
 	// カレントディレクトリを復元
 	process.chdir(lastPwd);
 }
