@@ -1,13 +1,13 @@
 import { parse } from "./dic";
-import type { music, musics } from "./types";
+import type { Music, Musics } from "./types";
 
 export type WorkerMessage = {
 	query: string;
-	musics: musics;
+	musics: Musics;
 };
 addEventListener("message", (e: MessageEvent<WorkerMessage>) => {
 	const regexp = new RegExp(parse(e.data.query));
-	const mapfn = (v: music): { m: music; d: number; sw: "composer" | "name" } => {
+	const mapfn = (v: Music): { m: Music; d: number; sw: "composer" | "name" } => {
 		if (regexp.test(parse(v.name))) return { m: v, d: -1, sw: "name" };
 		if (regexp.test(parse(v.composer))) return { m: v, d: -1, sw: "composer" };
 		const nameScore = del(parse(v.name), parse(e.data.query));

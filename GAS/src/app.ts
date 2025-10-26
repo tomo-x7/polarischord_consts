@@ -1,7 +1,7 @@
 import { InternalServerError, InvalidTokenError, ScriptError } from "./error";
 import { logger } from "./logger";
 import type { Music, Raw } from "./types";
-import { createErrorResponse, createResponse, mayBeNumber, mayBeString, strToU8arr } from "./util";
+import { createErrorResponse, createResponse, mayBeNumber, mayBeString, NumberOrUndefined } from "./util";
 
 const SHEATURL = "https://docs.google.com/spreadsheets/d/1nC9tfgg0vTQttDCACbZr9aDWKWjEtk676ZlRVW-glUk/";
 const SHEAT_NAME = "定数表メイン";
@@ -55,8 +55,8 @@ function main(): Music[] {
 				diffs: {
 					easy: { diff: mayBeNumber(diffEasy) },
 					normal: { diff: mayBeNumber(diffNormal) },
-					hard: { diff: mayBeNumber(diffHard), const: mayBeNumber(constHard) },
-					inf: hasInf ? { diff: mayBeNumber(diffInf), const: mayBeNumber(constInf) } : null,
+					hard: { diff: mayBeNumber(diffHard), const: NumberOrUndefined(constHard) },
+					inf: hasInf ? { diff: mayBeNumber(diffInf), const: NumberOrUndefined(constInf) } : null,
 				},
 				notes: {
 					easy: mayBeNumber(notesEasy),
@@ -134,6 +134,18 @@ function cron() {
 		}
 		saveHash(JSON.stringify(data));
 		// GitHub Actionsに送信
+		const token = PropertiesService.getScriptProperties().getProperty("GITHUB_TOKEN");
+		UrlFetchApp.fetch("https://api.github.com/repos/tomo-x7/polarischord_consts/dispatches", {
+			method: "post",
+			headers: {
+				Accept: "application/vnd.github+json",
+				Authorization: `token ${token}`,
+				"X-GitHub-Api-Version": "2022-11-28",
+			},
+			payload: JSON.stringify({
+				event_type: "cron_deploy",
+			}),
+		});
 	} catch (e) {
 		if (!(e instanceof ScriptError)) logger.fatal(e);
 	}

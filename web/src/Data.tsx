@@ -2,7 +2,7 @@ import { use, useEffect, useState } from "react";
 import { Loading } from "./Loading";
 import { Music } from "./Music";
 import { sortAlgos } from "./sortAlgo";
-import type { filterAlgo, metadata, musics, searchAlgo, sortData } from "./types";
+import type { FilterAlgo, Metadata, Musics, SearchAlgo, SortData } from "./types";
 
 export function Data({
 	data,
@@ -10,10 +10,10 @@ export function Data({
 	filterFn,
 	search,
 }: {
-	data: Promise<{ data: musics; meta: metadata }>;
-	sort: sortData;
-	filterFn: filterAlgo;
-	search?: searchAlgo;
+	data: Promise<{ data: Musics; meta: Metadata }>;
+	sort: SortData;
+	filterFn: FilterAlgo;
+	search?: SearchAlgo;
 }) {
 	const { data: origindata, meta } = use(data);
 
@@ -41,8 +41,8 @@ export function Data({
 	);
 }
 
-function DataViews({ dataPromise }: { dataPromise: Promise<musics> | musics }) {
-	const [dataState, setData] = useState<musics>();
+function DataViews({ dataPromise }: { dataPromise: Promise<Musics> | Musics }) {
+	const [dataState, setData] = useState<Musics>();
 	useEffect(() => {
 		if (Array.isArray(dataPromise)) {
 			setData(dataPromise);

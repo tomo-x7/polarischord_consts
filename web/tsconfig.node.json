@@ -16,7 +16,8 @@
 		/* Linting */
 		"strict": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true
+		"noUncheckedSideEffectImports": true,
+		"erasableSyntaxOnly": true
 	},
 	"include": ["vite.config.ts", "prebuild.ts"]
 }

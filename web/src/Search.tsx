@@ -2,7 +2,7 @@ import { type ChangeEvent, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { parse } from "./dic";
 import fuzzyWorker from "./fuzzyWorker?worker";
-import type { music, searchAlgo } from "./types";
+import type { Music, SearchAlgo } from "./types";
 
 const worker = new fuzzyWorker();
 
@@ -10,8 +10,8 @@ export function Search({
 	algo,
 	setAlgo,
 }: {
-	algo: searchAlgo | undefined;
-	setAlgo: React.Dispatch<React.SetStateAction<searchAlgo | undefined>>;
+	algo: SearchAlgo | undefined;
+	setAlgo: React.Dispatch<React.SetStateAction<SearchAlgo | undefined>>;
 }) {
 	const [isFuzzy, setFuzzy] = useState(false);
 	const [word, setWord] = useState<string>("");
@@ -40,17 +40,17 @@ export function Search({
 	);
 }
 
-const createSearchFn = (query: string): searchAlgo["fn"] | undefined => {
+const createSearchFn = (query: string): SearchAlgo["fn"] | undefined => {
 	if (query === "") return undefined;
 	const regexp = new RegExp(parse(query));
 	return (m) => m.filter((v) => regexp.test(parse(v.name)) || regexp.test(parse(v.composer)));
 };
-const createFuzzySearchFn = (query: string): searchAlgo["fn"] | undefined => {
+const createFuzzySearchFn = (query: string): SearchAlgo["fn"] | undefined => {
 	if (query === "") return undefined;
 	const regexp = new RegExp(parse(query));
 	return async (m) =>
 		new Promise((resolve) => {
 			worker.postMessage({ query, musics: m });
-			worker.onmessage = (e: MessageEvent<music[]>) => resolve(e.data);
+			worker.onmessage = (e: MessageEvent<Music[]>) => resolve(e.data);
 		});
 };

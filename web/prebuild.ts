@@ -2,20 +2,22 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "dotenv";
-import type { Res } from "../GAS/src/util";
+import type { Response as GasRes } from "../GAS/src/util";
 
 config();
-const { GAS_URL } = process.env;
-if (!GAS_URL) throw new Error("env not found");
-const isForce = process.argv[2] === "force" || process.env.FORCE === "1";
-if (isForce) console.log("force mode");
+const { GAS_URL, GAS_TOKEN } = process.env;
+if (GAS_URL == null || GAS_TOKEN == null) throw new Error("env not found");
 
-const res = await fetch(GAS_URL).then(async (res) => {
+const res = await fetch(GAS_URL, {
+	method: "POST",
+	body: GAS_TOKEN,
+}).then(async (res) => {
 	if (!res.ok) throw new Error(await res.text());
-	return res.json() as Promise<Res>;
+	return res.json() as Promise<GasRes>;
 });
 if (!res.ok) {
-	console.error(res.error);
+	console.error(res.name);
+	console.error(res.message);
 	throw new Error();
 }
 if (!res.payload) {
@@ -23,13 +25,7 @@ if (!res.payload) {
 	throw new Error();
 }
 const hash = crypto.hash("SHA256", JSON.stringify(res.payload), "base64");
-const { hash: oldhash } = await fetch("https://polaris-consts.pages.dev/data/metadata.json").then(
-	(r) => r.json() as Promise<{ hash: string }>,
-);
-//hashが前回値と一致かつforceではない場合
-if (hash === oldhash && isForce === false) {
-	process.exit(11);
-}
+
 const metadata = { lastupdate: new Date(), hash };
 const datadir = path.join(import.meta.dirname, "public", "data");
 try {

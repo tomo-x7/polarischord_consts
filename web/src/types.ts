@@ -1,20 +1,32 @@
 import type { sortAlgos } from "./sortAlgo";
 
-export type diffs = { easy: number; normal: number; hard: number; inf: number };
-export type consts = { hard: number; inf: number };
-export type music = {
+type DiffConst = { diff: number; const?: number };
+// infがない場合はnull
+type Diffs = { easy: DiffConst; normal: DiffConst; hard: DiffConst; inf: DiffConst | null };
+type Notes = { easy: number; normal: number; hard: number; inf: number | null };
+type Creaters = { easy: string; normal: string; hard: string; inf: string | null };
+type Links = { infVideo?: string; hardVideo?: string; infImage?: string };
+
+export type Music = {
+	id: string;
 	name: string;
 	composer: string;
-	diff: diffs;
-	consts: consts;
-	score?: number;
+	bpm: number;
+	time: string;
+	diffs: Diffs;
+	added: string;
+	notes: Notes;
+	creaters: Creaters;
+	links: Links;
+	kanaName: string;
 };
-export type musics = music[];
-export type metadata = { lastupdate: string; hash: string };
+export type Musics = Music[];
 
-export type sortAlgo = (a: music, b: music) => number;
-export type sortData = { algo: keyof typeof sortAlgos; reverse: boolean };
+export type Metadata = { lastupdate: string; hash: string };
 
-export type filterAlgo = { fn: (music: music) => boolean };
+export type SortAlgo = (a: Music, b: Music) => number;
+export type SortData = { algo: keyof typeof sortAlgos; reverse: boolean };
 
-export type searchAlgo = { fn: (musics: musics) => musics | Promise<musics>; canSort: boolean };
+export type FilterAlgo = { fn: (music: Music) => boolean };
+
+export type SearchAlgo = { fn: (musics: Musics) => Musics | Promise<Musics>; canSort: boolean };
