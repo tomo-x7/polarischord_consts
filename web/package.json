@@ -1,5 +1,5 @@
 {
-	"name": "polarischord_consts_web",
+	"name": "web",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -28,12 +28,5 @@
 		"typescript": "^5.8.3",
 		"vite": "^6.3.2",
 		"wrangler": "^3.101.0"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@swc/core",
-			"esbuild",
-			"workerd"
-		]
 	}
 }

@@ -1,9 +1,11 @@
 packages:
-  - GAS/
-  - web/
+  - GAS
+  - web
 
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
   - sharp
   - workerd
+
+enablePrePostScripts: true
