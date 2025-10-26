@@ -1,7 +1,7 @@
 import { InternalServerError, InvalidTokenError, ScriptError } from "./error";
 import { logger } from "./logger";
 import type { Music, Raw } from "./types";
-import { createErrorResponse, createResponse, mayBeNumber, mayBeString } from "./util";
+import { createErrorResponse, createResponse, mayBeNumber, mayBeString, strToU8arr } from "./util";
 
 const SHEATURL = "https://docs.google.com/spreadsheets/d/1nC9tfgg0vTQttDCACbZr9aDWKWjEtk676ZlRVW-glUk/";
 const SHEAT_NAME = "定数表メイン";
@@ -45,8 +45,10 @@ function main(): Music[] {
 			if (name == null || name === "") return undefined;
 			const hasInf = diffInf !== "-";
 			return {
-				name: String(name),
-				composer: String(composer),
+				id: mayBeString(id),
+				name: mayBeString(name),
+				kanaName: mayBeString(kanaName),
+				composer: mayBeString(composer),
 				bpm: mayBeNumber(bpm),
 				time: mayBeString(time),
 				added: mayBeString(added),
@@ -68,7 +70,6 @@ function main(): Music[] {
 					hard: mayBeString(createrHard),
 					inf: hasInf ? mayBeString(createrInf) : null,
 				},
-				id: mayBeString(id),
 				links: {
 					hardVideo: mayBeString(hardVideoUrl),
 					infVideo: mayBeString(infVideoUrl),
@@ -79,6 +80,22 @@ function main(): Music[] {
 		.filter((v) => v != null);
 
 	return data;
+}
+
+function calcHash(data: string) {
+	const raw = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, data);
+	return Utilities.base64Encode(raw);
+}
+
+function checkHash(data: string) {
+	const hash = calcHash(data);
+	const last = PropertiesService.getScriptProperties().getProperty("LAST_HASH");
+	return hash === last;
+}
+
+function saveHash(data: string) {
+	const hash = calcHash(data);
+	PropertiesService.getScriptProperties().setProperty("LAST_HASH", hash);
 }
 
 function test() {
@@ -99,6 +116,7 @@ function doPost(ev: GoogleAppsScript.Events.DoPost) {
 			throw new InvalidTokenError("Invalid Token");
 		}
 		const res = main();
+		saveHash(JSON.stringify(res));
 		return createResponse(res);
 	} catch (e) {
 		if (!(e instanceof ScriptError)) logger.fatal(e);
@@ -109,6 +127,12 @@ function doPost(ev: GoogleAppsScript.Events.DoPost) {
 function cron() {
 	try {
 		const data = main();
+		const isSame = checkHash(JSON.stringify(data));
+		if (isSame) {
+			logger.skipped();
+			return;
+		}
+		saveHash(JSON.stringify(data));
 		// GitHub Actionsに送信
 	} catch (e) {
 		if (!(e instanceof ScriptError)) logger.fatal(e);

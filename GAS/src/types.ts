@@ -1,4 +1,4 @@
-export type RawItem = string | number | undefined;
+export type RawItem = string | number | undefined | Date;
 export type Raw = RawItem[][];
 
 type DiffConst = { diff: number; const?: number };
@@ -19,4 +19,5 @@ export type Music = {
 	notes: Notes;
 	creaters: Creaters;
 	links: Links;
+	kanaName: string;
 };
