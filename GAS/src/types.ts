@@ -1,4 +1,5 @@
-import type { sortAlgos } from "./sortAlgo";
+export type RawItem = string | number | undefined | Date;
+export type Raw = RawItem[][];
 
 type DiffConst = { diff: number; const?: number };
 // infがない場合はnull
@@ -20,13 +21,3 @@ export type Music = {
 	links: Links;
 	kanaName: string;
 };
-export type Musics = Music[];
-
-export type Metadata = { lastupdate: string; hash: string };
-
-export type SortAlgo = (a: Music, b: Music) => number;
-export type SortData = { algo: keyof typeof sortAlgos; reverse: boolean };
-
-export type FilterAlgo = { fn: (music: Music) => boolean };
-
-export type SearchAlgo = { fn: (musics: Musics) => Musics | Promise<Musics>; canSort: boolean };

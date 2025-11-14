@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { sortAlgos } from "./sortAlgo";
-import type { sortData } from "./types";
+import type { SortData } from "./types";
 
 const algoNames: Record<keyof typeof sortAlgos, string> = {
 	name: "曲名",
@@ -14,8 +14,8 @@ export function Sort({
 	now,
 	canSort = true,
 }: {
-	setSort: React.Dispatch<React.SetStateAction<sortData>>;
-	now: sortData;
+	setSort: React.Dispatch<React.SetStateAction<SortData>>;
+	now: SortData;
 	canSort?: boolean;
 }) {
 	const onRadioChange: React.ChangeEventHandler<HTMLInputElement> = (ev) =>

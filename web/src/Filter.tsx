@@ -1,7 +1,7 @@
 import { type ChangeEvent, useState } from "react";
-import type { filterAlgo } from "./types";
+import type { FilterAlgo } from "./types";
 
-export function Filter({ setFilter }: { setFilter: React.Dispatch<React.SetStateAction<filterAlgo>> }) {
+export function Filter({ setFilter }: { setFilter: React.Dispatch<React.SetStateAction<FilterAlgo>> }) {
 	const [onlyInf, setOnlyInf] = useState(false);
 	const [onlyConst, setOnlyConst] = useState(false);
 	const [onlyNoConst, setOnlyNoConst] = useState(false);
@@ -35,12 +35,16 @@ export function Filter({ setFilter }: { setFilter: React.Dispatch<React.SetState
 	);
 }
 
-function createFilter(onlyInf: boolean, onlyConst: boolean, onlyNoConst: boolean): filterAlgo {
+function createFilter(onlyInf: boolean, onlyConst: boolean, onlyNoConst: boolean): FilterAlgo {
 	return {
 		fn: (music) => {
-			if (onlyInf && music.diff.inf === -1) return false;
-			if (onlyConst && music.consts.inf === 0) return false;
-			if (onlyNoConst && music.consts.inf > 0) return false;
+			const hasInf = music.diffs.inf != null;
+			const hasConst =
+				(!hasInf || music.diffs.inf?.const != null) && //Infがないか、定数判明済
+				(music.diffs.hard.diff < 10 || music.diffs.hard.const != null); //hardが10未満か定数判明済
+			if (onlyInf && !hasInf) return false;
+			if (onlyConst && hasConst) return false;
+			if (onlyNoConst && !hasConst) return false;
 			return true;
 		},
 	};

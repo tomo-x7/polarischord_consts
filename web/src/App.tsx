@@ -5,12 +5,12 @@ import { Loading } from "./Loading";
 import { Search } from "./Search";
 import { Sort } from "./Sort";
 import type {} from "./sortAlgo";
-import type { filterAlgo, metadata, musics, searchAlgo, sortData } from "./types";
+import type { FilterAlgo, Metadata, Musics, SearchAlgo, SortData } from "./types";
 
-export default function App({ data }: { data: Promise<{ data: musics; meta: metadata }> }) {
-	const [sort, setsort] = useState<sortData>({ algo: "name", reverse: false });
-	const [filter, setFilter] = useState<filterAlgo>({ fn: defaultFilter });
-	const [searchAlgo, setSearchAlgo] = useState<searchAlgo>();
+export default function App({ data }: { data: Promise<{ data: Musics; meta: Metadata }> }) {
+	const [sort, setsort] = useState<SortData>({ algo: "name", reverse: false });
+	const [filter, setFilter] = useState<FilterAlgo>({ fn: defaultFilter });
+	const [searchAlgo, setSearchAlgo] = useState<SearchAlgo>();
 	return (
 		<>
 			<h1 className="text-3xl tablet:text-[25px]">ポラリスコード譜面定数一覧</h1>
