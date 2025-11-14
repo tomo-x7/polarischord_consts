@@ -139,7 +139,7 @@ function cron() {
 			method: "post",
 			headers: {
 				Accept: "application/vnd.github+json",
-				Authorization: `token ${token}`,
+				Authorization: `Bearer ${token}`,
 				"X-GitHub-Api-Version": "2022-11-28",
 			},
 			payload: JSON.stringify({
