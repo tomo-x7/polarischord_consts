@@ -1,7 +1,7 @@
 import type { Music as MusicT } from "./types";
 
-const diffs = ["easy", "normal", "hard", "inf"] as const;
-const colors = ["#b7fcff", "#b7ffdf", "#fff5ca", "#ffd6f7"] as const;
+const diffs = ["easy", "normal", "hard", "inf", "polar"] as const;
+const colors = ["#b7fcff", "#b7ffdf", "#fff5ca", "#ffd6f7", "#e9d6ff"] as const;
 export function Music({ music, bg }: { music: MusicT; bg: string }) {
 	return (
 		<div
@@ -30,9 +30,9 @@ export function Music({ music, bg }: { music: MusicT; bg: string }) {
 		</div>
 	);
 }
-function parseConst(music: MusicT, lev: "easy" | "normal" | "hard" | "inf") {
+function parseConst(music: MusicT, lev: (typeof diffs)[number]) {
 	const diff = music.diffs[lev]?.diff;
-	//diffs内に存在しない場合(infのみ)infが存在しない
+	//diffs内に存在しない場合(inf,polar)その難易度が存在しない
 	if (diff == null) return "-";
 	//diffが-1の場合不正(空文字とかの場合これになる、未判明含む)
 	if (diff === -1) return "?";

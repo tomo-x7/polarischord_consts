@@ -14,7 +14,7 @@ function main(): Music[] {
 	}
 	const rawdata = sheat.getRange("A2:AC1000").getValues() as Raw;
 	const data: Music[] = rawdata
-		.filter(raw=>raw[0] != null && raw[0] !== "")
+		.filter((raw) => raw[0] != null && raw[0] !== "")
 		.map((raw) => {
 			const [
 				name, // 楽曲名
