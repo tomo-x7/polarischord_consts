@@ -44,11 +44,7 @@ export function Data({
 function DataViews({ dataPromise }: { dataPromise: Promise<Musics> | Musics }) {
 	const [dataState, setData] = useState<Musics>();
 	useEffect(() => {
-		if (Array.isArray(dataPromise)) {
-			setData(dataPromise);
-		} else {
-			dataPromise.then(setData);
-		}
+		Promise.resolve(dataPromise).then(setData);
 	}, [dataPromise]);
 	return (
 		<>

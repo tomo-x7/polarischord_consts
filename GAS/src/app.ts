@@ -12,12 +12,15 @@ function main(): Music[] {
 	if (!sheat) {
 		throw new InternalServerError("sheat not found");
 	}
-	const rawdata = sheat.getRange("A2:X1000").getValues() as Raw;
+	const rawdata = sheat.getRange("A2:AC1000").getValues() as Raw;
 	const data: Music[] = rawdata
+		.filter((raw) => raw[0] != null && raw[0] !== "")
 		.map((raw) => {
 			const [
 				name, // 楽曲名
 				composer, // アーティスト名
+				diffPolar, // POLAR難易度
+				constPolar, // POLAR定数
 				diffInf, // INF難易度
 				constInf, // INF定数
 				diffHard, // HARD難易度
@@ -27,14 +30,17 @@ function main(): Music[] {
 				bpm, // BPM
 				time, // 時間
 				added, // 追加日
+				notesPolar, // ノーツ数POLAR
 				notesInf, // ノーツ数Inf
 				notesHard, // ノーツ数Hard
 				notesNormal, // ノーツ数Normal
 				notesEasy, // ノーツ数Easy
-				createrInf, // 譜面製作者
-				createrHard, // 譜面製作者
-				createrNormal, // 譜面製作者
-				createrEasy, // 譜面製作者
+				createrPolar, // 譜面製作者Polar
+				createrInf, // 譜面製作者Inf
+				createrHard, // 譜面製作者Hard
+				createrNormal, // 譜面製作者Normal
+				createrEasy, // 譜面製作者Easy
+				polarVideoUrl, // 譜面動画URLPolar
 				infVideoUrl, // 譜面動画URLInf
 				hardVideoUrl, // 譜面動画URLHard
 				infImageUrl, // 譜面画像URL
@@ -44,6 +50,7 @@ function main(): Music[] {
 			// 空行
 			if (name == null || name === "") return undefined;
 			const hasInf = diffInf !== "-";
+			const hasPolar = diffPolar !== "-";
 			return {
 				id: mayBeString(id),
 				name: mayBeString(name),
@@ -57,22 +64,26 @@ function main(): Music[] {
 					normal: { diff: mayBeNumber(diffNormal) },
 					hard: { diff: mayBeNumber(diffHard), const: NumberOrUndefined(constHard) },
 					inf: hasInf ? { diff: mayBeNumber(diffInf), const: NumberOrUndefined(constInf) } : null,
+					polar: hasPolar ? { diff: mayBeNumber(diffPolar), const: NumberOrUndefined(constPolar) } : null,
 				},
 				notes: {
 					easy: mayBeNumber(notesEasy),
 					normal: mayBeNumber(notesNormal),
 					hard: mayBeNumber(notesHard),
 					inf: hasInf ? mayBeNumber(notesInf) : null,
+					polar: hasPolar ? mayBeNumber(notesPolar) : null,
 				},
 				creaters: {
 					easy: mayBeString(createrEasy),
 					normal: mayBeString(createrNormal),
 					hard: mayBeString(createrHard),
 					inf: hasInf ? mayBeString(createrInf) : null,
+					polar: hasPolar ? mayBeString(createrPolar) : null,
 				},
 				links: {
 					hardVideo: mayBeString(hardVideoUrl),
 					infVideo: mayBeString(infVideoUrl),
+					polarVideo: mayBeString(polarVideoUrl),
 					infImage: mayBeString(infImageUrl),
 				},
 			} satisfies Music;
